@@ -1,0 +1,28 @@
+[ignore]
+build/.*
+node_modules/*
+[include]
+
+[libs]
+<PROJECT_ROOT>/flow-typed/
+
+[lints]
+
+[options]
+emoji=true
+module.name_mapper='@/components' -> '<PROJECT_ROOT>/components'
+module.name_mapper='@/constants' -> '<PROJECT_ROOT>/constants'
+module.name_mapper='@/utils' -> '<PROJECT_ROOT>/components/util'
+module.name_mapper='@/layout' -> '<PROJECT_ROOT>/components/layouts'
+module.name_mapper='@/icons' -> '<PROJECT_ROOT>/icons'
+module.name_mapper='@/modals' -> '<PROJECT_ROOT>/components/modals'
+module.name_mapper='@/commons' -> '<PROJECT_ROOT>/components/common'
+module.name_mapper='@/inputs' -> '<PROJECT_ROOT>/components/inputs'
+module.name_mapper='@/images' -> '<PROJECT_ROOT>/components/images'
+# enable experimental es7 features
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
+esproposal.decorators=ignore
+# enable // $FlowFixMe and // $FlowIssue comments to disable flow on subsequent line
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue

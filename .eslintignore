@@ -1,0 +1,11 @@
+node_modules/*
+components/PagesComponents/*
+components/ReuseableComponents/*
+components/Templates/*
+components/VsPayment/*
+public/*
+scripts/*
+store/*
+flow-typed/*
+!pages/admin/e-shop/*
+

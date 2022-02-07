@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/layout/*": ["components/layouts/*"],
+      "@/commons/*": ["components/common/*"],
+      "@/constants/*": ["constants/*"],
+      "@/icons/*": ["icons/*"],
+      "@/inputs/*": ["components/inputs/*"],
+      "@/utils/*": ["components/util/*"],
+      "@/modals/*": ["components/modals/*"],
+      "@/images/*": ["components/images/*"]
+    }
+  }
+}
