@@ -5,18 +5,13 @@ import Router from 'next/router';
 import { appUrl } from '@/constants/index';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Message } from '@/components/alert/message';
+import Link from 'next/link';
 
 const SearchHeader = () => {
   const { user_email, profile_link } = getLocalStorageValues();
   const [userDropDown, setUserDropDown] = useState(false);
   const handleLogout = () => {
-    localStorage.removeItem('user_phone_number');
-    localStorage.removeItem('user_is_verified');
-    localStorage.removeItem('user_email');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('user_role');
-    localStorage.removeItem('user_auth_token');
-    localStorage.removeItem('profile_link');
+    localStorage.clear();
     Router.push('/', '/');
   };
   return (
@@ -63,8 +58,7 @@ const SearchHeader = () => {
                 Message.success(null, {
                   message: 'Profile Linked Copied',
                 })
-              }
-            >
+              }>
               <button className="btn btn-primary ml-3 mt-4 btn-sm text-nowrap">Copy Referral Link</button>
             </CopyToClipboard>
         </li>
@@ -78,8 +72,7 @@ const SearchHeader = () => {
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
-            onClick={() => setUserDropDown(!userDropDown)}
-          >
+            onClick={() => setUserDropDown(!userDropDown)} >
             <span className="mr-2 d-none d-lg-inline text-gray-600 small">
               {user_email || 'Admin'}
             </span>
@@ -90,6 +83,16 @@ const SearchHeader = () => {
               animated--grow-in ${userDropDown && 'show'}`}
             aria-labelledby="userDropdown"
           >
+            <Link href="/admin/profile">
+              <a className="dropdown-item">
+              <i
+                className="fas fa-user
+                 fa-sm fa-fw mr-2
+                  text-gray-400"
+              />
+              Profile
+              </a>
+            </Link>
             <div className="dropdown-divider" />
             <a
               className="dropdown-item"

@@ -1,10 +1,16 @@
 // @flow
 import React, { useEffect } from 'react';
 import NProgress from 'nprogress';
-import Router from 'next/router';
 import { getLocalStorageValues } from '@/constants/local-storage';
 import SecureHead from './secure-head';
 import { SideBar, Footer } from './components';
+import { GET_USER_BY_ID } from './queries';
+import Router, { useRouter } from "next/router";
+import { removeLocalStorageCred } from '@/utils/local-storage';
+import TemplateContext from './context';
+import _get from 'lodash.get';
+import { useQuery } from "react-query";
+import reactQueryConfig from "@/constants/react-query-config";
 
 type Props = {
   children: any,
@@ -12,8 +18,26 @@ type Props = {
 
 const SecureTemplate = (props: Props) => {
   const { children } = props;
+  const router = useRouter();
+  const { pathname } = router;
+  const TemplateProvider = TemplateContext.Provider;
   // const { user_auth_token, user_role } = getLocalStorageValues();
-  const { user_auth_token } = getLocalStorageValues();
+  const { user_auth_token, user_id } = getLocalStorageValues();
+  const isEnabled = typeof user_id === "string";
+  console.log("user_id", user_id)
+  const {
+    data: userData,
+    refetch: refetchUserData,
+    isLoading: isLoadingUserData,
+  } = useQuery(['GET_USER_BY_ID',  { userId: user_id }], GET_USER_BY_ID, {
+    ...reactQueryConfig,
+    enabled: isEnabled,
+    onError: async () => {
+      await removeLocalStorageCred();
+      Router.push('/login', '/login', { shallow: true });
+    },
+  });
+  console.log("userData", userData);
   Router.onRouteChangeStart = () => {
     NProgress.start();
   };
@@ -30,7 +54,13 @@ const SecureTemplate = (props: Props) => {
     }
   }, [user_auth_token]);
   return (
-    <React.Fragment>
+    <TemplateProvider
+      value={{
+        userData: _get(userData, 'data', {}),
+        refetchUserData: refetchUserData,
+        isLoadingUserData: isLoadingUserData,
+      }}
+    >
       <SecureHead />
       <div id="wrapper">
         <SideBar />
@@ -39,7 +69,7 @@ const SecureTemplate = (props: Props) => {
           <Footer />
         </div>
       </div>
-    </React.Fragment>
+    </TemplateProvider>
   );
 };
 export default SecureTemplate;
