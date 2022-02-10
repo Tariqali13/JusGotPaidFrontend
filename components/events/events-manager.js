@@ -1,9 +1,8 @@
-// @flow
-import React from 'react';
+import React, { useState } from 'react';
 import SecureTemplate from '@/layout/secure-template';
 import SearchHeader from '@/components/search-header';
-import { useTable } from 'react-table';
-import { useQuery } from 'react-query';
+import { useTable  } from 'react-table';
+import { useQuery, useMutation } from 'react-query';
 import Router from 'next/router';
 import { getLocalStorageValues } from '@/constants/local-storage';
 import reactQueryConfig from '@/constants/react-query-config';
@@ -11,8 +10,8 @@ import ProgressLoader from '@/components/loaders/progress-loader';
 import _get from 'lodash/get';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Message } from '@/components/alert/message';
-import { GET_EVENTS_DATA, GET_INFLUENCER_EVENTS_DATA } from './queries';
-import { GET_EVENT_DATA } from './detail/queries';
+import { GET_EVENTS_DATA, DELETE_EVENT } from './queries';
+import { ConfirmationModal } from "@/components/modal";
 
 const columns = [
   {
@@ -36,11 +35,21 @@ const columns = [
   //   accessor: 'no_of_tickets',
   // },
 ];
+
 const EventsManager = (props) => {
+  const { passedEvents  } = props;
   const { user_id, user_role } = getLocalStorageValues();
   const isWindow = typeof window !== 'undefined';
   const splitUrl = isWindow && window.location.href.split('/');
- 
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState({});
+  const toggleDeleteModal = () => setDeleteModal(!deleteModal);
+  console.log("deleteModal", deleteModal)
+  const [
+    deleteEvent,
+    {isLoading: isLoadingDelete},
+  ] = useMutation(DELETE_EVENT);
+
   // if(user_role === "Admin") {
   //   var { data: eventsData, isLoading: isEventsDataLoading } = useQuery(
   //     ['EVENTS_DATA', { id: user_id }],
@@ -60,15 +69,32 @@ const EventsManager = (props) => {
   //     },
   //   );
   // }
-  
-  var { data: eventsData, isLoading: isEventsDataLoading } = useQuery(
+  const handleDelete = id => {
+    setDeleteModal(true);
+    const findEvent = _get(eventsData, 'data', []).find(
+      event => event._id === id);
+    setEventToDelete(findEvent);
+  };
+
+  var { data: eventsData, isLoading: isEventsDataLoading, refetch } = useQuery(
     ['EVENTS_DATA', {passedEvents: props.passedEvents}],
     GET_EVENTS_DATA,
     {
       ...reactQueryConfig,
     },
   );
-
+  const handleConfirmDelete = async () => {
+    toggleDeleteModal();
+    await deleteEvent(_get(eventToDelete, '_id', ''), {
+      onSuccess: async res => {
+        await refetch();
+        Message.success(res);
+      },
+      onError: err => {
+        Message.error(err);
+      },
+    });
+  };
   const tableData = _get(eventsData, 'data', []);
   const {
     getTableProps,
@@ -77,6 +103,7 @@ const EventsManager = (props) => {
     rows,
     prepareRow,
   } = useTable({ columns, data: tableData });
+
   return (
     <SecureTemplate>
       <div id="content">
@@ -84,7 +111,7 @@ const EventsManager = (props) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-6 col-sm-12">
-              <h1 className="h3 mb-2 text-gray-800">Events</h1>
+              <h1 className="h3 mb-2 text-gray-800">{passedEvents ? "Passed Events" : "Current Events"}</h1>
               <p className="mb-4">List of all the events</p>
             </div>
             {
@@ -145,7 +172,8 @@ const EventsManager = (props) => {
                                 </td>
                               );
                             })}
-                            <td>
+                            <td
+                            >
                               {
                                 _get(
                                   row,
@@ -156,9 +184,9 @@ const EventsManager = (props) => {
                                 )
                               }
                             </td>
-                            <td>
-                              <button
-                                className="btn btn-primary btn-sm"
+                            <td className="d-flex justify-content-between align-items-center " >
+                              <i
+                                className="fa fa-eye cursor-pointer icon-hover"
                                 onClick={() =>
                                   window.open(
                                     `/influencer/${user_id}/event/${_get(
@@ -168,9 +196,26 @@ const EventsManager = (props) => {
                                     '_blank',
                                   )
                                 }
-                              >
-                                Preview Event
-                              </button>
+                              />
+                              <i
+                                className="fa fa-edit cursor-pointer icon-hover "
+                                onClick={() =>
+                                  window.open(
+                                    `/influencer/${user_id}/event/${_get(
+                                      row,
+                                      'original._id',
+                                    )}`,
+                                    '_blank',
+                                  )
+                                }
+                              />
+                              <i
+                                className="fa fa-trash cursor-pointer icon-hover"
+                                onClick={() =>{
+                                  setDeleteModal(true);
+                                  setEventToDelete(row.original);
+                                }}
+                              />
                               <CopyToClipboard
                                 text={`${window.location.protocol}://${
                                   splitUrl[2]
@@ -184,11 +229,15 @@ const EventsManager = (props) => {
                                   })
                                 }
                               >
-                                <button className="btn btn-primary ml-3 btn-sm">
-                                  Copy Link
-                                </button>
+                                <i className="fa fa-link cursor-pointer icon-hover">
+                                </i>
                               </CopyToClipboard>
                             </td>
+                            <td
+                              dataId={_get( eventsData,'_id')}
+                              isDelete={true}
+                              handleDelete={handleDelete}
+                            />
                           </tr>
                         );
                       })}
@@ -200,8 +249,23 @@ const EventsManager = (props) => {
           </div>
         </div>
       </div>
-      {isEventsDataLoading && (
-        <ProgressLoader isLoading={isEventsDataLoading} />
+      <ConfirmationModal
+        heading="Confirm Delete"
+        modalOpen={deleteModal}
+        toggleModal={toggleDeleteModal}
+        handleCancelButton={toggleDeleteModal}
+        isCancelButton={true}
+        isConfirmButton={true}
+        confirmButtonText="Delete"
+        handleConfirmButton={handleConfirmDelete}
+      >
+        <p>
+          Are you sure you want to delete event{' '}
+          <strong>{eventToDelete?.event_name}</strong> ?
+        </p>
+      </ConfirmationModal>
+      {(isEventsDataLoading || isLoadingDelete) && (
+        <ProgressLoader isLoading={isEventsDataLoading || isLoadingDelete} />
       )}
     </SecureTemplate>
   );

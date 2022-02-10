@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import SecureTemplate from '@/layout/secure-template';
 import SearchHeader from '@/components/search-header';

@@ -20,38 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="281c5f14-7669-4862-9d39-2ea535ae98e8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/components/layouts/secure-template/context/context.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/layouts/secure-template/context/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/layouts/secure-template/queries.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/modal/confirmation-modal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/modal/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/modal/processing-modal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/profile/edit/components/edit-profile-form.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/profile/edit/components/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/profile/edit/components/update-password-form.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/profile/edit/components/update-password.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/profile/edit/edit-profile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/profile/edit/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/profile/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/profile/profile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/profile/queries.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/profile/validation/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/uppy-file-uploader/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/uppy-file-uploader/queries.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/uppy-file-uploader/uppy-file-uploader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/util/local-storage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/admin/profile/edit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/admin/profile/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/JusGotPaidFrontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/JusGotPaidFrontend.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layouts/secure-template/secure-template.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/layouts/secure-template/secure-template.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/search-header/search-header.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/search-header/search-header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/util/form-utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/util/form-utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/env.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/env.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/regex-constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/regex-constants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/create/event-create.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/create/event-create.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/events-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/events-manager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/modal/confirmation-modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/modal/confirmation-modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/secure-template-company.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/secure-template-company.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/secure-template.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/secure-template.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/admin.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -110,7 +88,7 @@
       <workItem from="1644222228775" duration="41000" />
       <workItem from="1644226580568" duration="12709000" />
       <workItem from="1644333619272" duration="24000" />
-      <workItem from="1644396945605" duration="9164000" />
+      <workItem from="1644396945605" duration="22792000" />
     </task>
     <servers />
   </component>
@@ -134,10 +112,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="92" y="92" width="1182" height="544" key="dock-window-1/0.0.1366.728@0.0.1366.728" timestamp="1644322748539" />
-    <state x="339" y="162" key="run.anything.popup" timestamp="1644401819128">
+    <state x="339" y="162" key="run.anything.popup" timestamp="1644483846393">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1644401819128" />
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1644483846393" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

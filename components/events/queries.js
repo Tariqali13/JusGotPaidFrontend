@@ -19,3 +19,9 @@ export const GET_INFLUENCER_EVENTS_DATA = async (key, e) => {
   return res.data;
 };
 
+export const DELETE_EVENT = async (data) => {
+  const res = await axios.delete(baseURL + `/v1/event/${data}`);
+  return res.data;
+};
+
+

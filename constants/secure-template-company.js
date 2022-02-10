@@ -8,7 +8,7 @@ export const companySideNav = [
   {
     href: '/admin/events',
     as: '/admin/events',
-    name: 'Events',
+    name: 'Current Events',
     icon: 'fa-calendar'
   },
   {

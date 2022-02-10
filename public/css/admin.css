@@ -11249,3 +11249,19 @@ body.sidebar-toggled footer.sticky-footer {
 .sidebar .active {
   background: #151515 !important;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.icon-hover:hover {
+  color: red;
+}
+::selection {
+  color: #000000;
+  background-color: red;
+}
+
+#wrapper {
+  cursor: url('../img/cursor-red.png'), auto;
+}

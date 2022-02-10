@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalBody, ModalFooter, Button } from 'react-bootstrap';
+import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 
 type Props = {
   heading: string,
