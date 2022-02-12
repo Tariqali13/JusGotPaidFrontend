@@ -12,6 +12,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Message } from '@/components/alert/message';
 import { GET_EVENTS_DATA, DELETE_EVENT } from './queries';
 import { ConfirmationModal } from "@/components/modal";
+import Link from 'next/link';
 
 const columns = [
   {
@@ -197,18 +198,14 @@ const EventsManager = (props) => {
                                   )
                                 }
                               />
+                              <Link href={`/admin/events/${_get(
+                                row,
+                                'original._id',
+                              )}/edit`}>
                               <i
                                 className="fa fa-edit cursor-pointer icon-hover "
-                                onClick={() =>
-                                  window.open(
-                                    `/influencer/${user_id}/event/${_get(
-                                      row,
-                                      'original._id',
-                                    )}`,
-                                    '_blank',
-                                  )
-                                }
                               />
+                              </Link>
                               <i
                                 className="fa fa-trash cursor-pointer icon-hover"
                                 onClick={() =>{

@@ -12,6 +12,7 @@ type Props = {
   handleSubmit: any,
   dirty: boolean,
   isSubmitting: boolean,
+  buttonText: string,
 };
 
 const EventForm = (props: Props) => {
@@ -23,6 +24,7 @@ const EventForm = (props: Props) => {
     handleBlur,
     errors,
     handleSubmit,
+    buttonText,
   } = props;
   return (
     <div className="row">
@@ -224,7 +226,7 @@ const EventForm = (props: Props) => {
               }
             }}
           >
-            Submit
+            {buttonText || 'Submit'}
           </button>
         </div>
       </div>

@@ -20,17 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="281c5f14-7669-4862-9d39-2ea535ae98e8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/components/events/edit/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/admin/events/[eventId]/edit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/create/components/event-form.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/create/components/event-form.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/events/create/event-create.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/create/event-create.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/create/validations/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/validations/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/events/events-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/events-manager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/events/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/queries.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/modal/confirmation-modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/modal/confirmation-modal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/secure-template-company.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/secure-template-company.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/secure-template.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/secure-template.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,16 +61,16 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\layouts\secure-template" />
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\events" />
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\pages\admin\events\[eventId]" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile\edit\components" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile\edit" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile" />
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile\components\edit-profile\components" />
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile\components\edit-profile" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\layouts\secure-template" />
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -88,7 +86,9 @@
       <workItem from="1644222228775" duration="41000" />
       <workItem from="1644226580568" duration="12709000" />
       <workItem from="1644333619272" duration="24000" />
-      <workItem from="1644396945605" duration="22792000" />
+      <workItem from="1644396945605" duration="22883000" />
+      <workItem from="1644522233502" duration="2172000" />
+      <workItem from="1644570340191" duration="4296000" />
     </task>
     <servers />
   </component>
@@ -116,16 +116,5 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1644483846393" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/components/events/create/validations/index.js</url>
-          <line>6</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

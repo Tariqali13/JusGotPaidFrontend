@@ -7,7 +7,7 @@ import { Formik } from 'formik';
 import { getLocalStorageValues } from '@/constants/local-storage';
 import { useMutation } from 'react-query';
 import ProgressLoader from '@/components/loaders/progress-loader';
-import { validateAddEventForm } from './validations';
+import { validateAddEventForm } from '../validations';
 import { EventForm } from './components';
 import { CREATE_EVENT } from './queries';
 
