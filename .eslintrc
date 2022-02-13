@@ -104,7 +104,7 @@
     // The default wrapping in most tools disrupts the visual structure of the
     // code, making it more difficult to understand. Some web based tools may
     // not offer dynamic line wrapping at all.
-    "max-len": ["error", 80],
+    "max-len": ["error", 200],
     // At most, one blank line between blocks. If a block is important enough
     // that a single blank line doesn't sufficiently distinguish it from the
     // su rrounding context, add a comment highlighting its importance.

@@ -65,7 +65,7 @@ const EventDetailForm = (props: Props) => {
                       data-toggle="dropdown"
                       aria-haspopup="true"
                       aria-expanded="false"
-                      onClick={() => setTicketDropDown(!ticketDropDown)}
+                      // onClick={() => setTicketDropDown(!ticketDropDown)}
                       style={{ paddingLeft: '35%' }}
                     >
                       {values.tickets_buy}

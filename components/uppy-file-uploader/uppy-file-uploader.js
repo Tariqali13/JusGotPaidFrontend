@@ -60,7 +60,7 @@ const UppyFileUploader = (props: IProps) => {
     isMulti = false,
     setIsLoadingMultiFiles,
   } = props;
-  const { mutate: UPLOAD_FILE, isLoading } = useMutation(async (e: any) => {
+  const [UPLOAD_FILE, { isLoading } ] = useMutation(async (e: any) => {
     if (axiosMethod === 'post') {
       const res = await axios.post(`${baseURL}/v1/${uploadUrl}`, e);
       return res?.data;

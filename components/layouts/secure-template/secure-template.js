@@ -66,7 +66,7 @@ const SecureTemplate = (props: Props) => {
         <SideBar />
         <div id="content-wrapper" className="d-flex flex-column">
           {children}
-          <Footer />
+          {/*<Footer />*/}
         </div>
       </div>
     </TemplateProvider>

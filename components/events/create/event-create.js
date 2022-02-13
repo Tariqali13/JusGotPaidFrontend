@@ -33,20 +33,36 @@ const EventCreate = () => {
               <p className="mb-4">Create a event with proper information</p>
             </div>
           </div>
-          <div className="card shadow mb-4">
+          <div className="card shadow mb-4 max-card-height">
             <div className="card-body">
               <Formik
                 initialValues={{
                   influencer_id: user_id,
+                  cover_image_id: '',
                   event_name: '',
                   event_type: '',
                   event_location: '',
                   event_date: '',
                   no_of_tickets: '',
                   ticket_price: '',
+                  images: [],
                 }}
                 validationSchema={validateAddEventForm}
                 onSubmit={async (values, actions) => {
+                  if (values.cover_image_id?._id) {
+                    // eslint-disable-next-line no-param-reassign
+                    values.cover_image_id = values.cover_image_id._id;
+                  } else {
+                    // eslint-disable-next-line no-param-reassign
+                    delete values.cover_image_id;
+                  }
+                  if (values.images?.length) {
+                    // eslint-disable-next-line no-param-reassign
+                    values.images = values.images.map(im => im._id);
+                  } else {
+                    // eslint-disable-next-line no-param-reassign
+                    delete values.images;
+                  }
                   await createEvent(values, {
                     onSuccess: async res => {
                       Message.success(res);

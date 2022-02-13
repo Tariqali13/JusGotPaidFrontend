@@ -1,7 +1,7 @@
 // @flow
 
 const reactQueryConfig = {
-  refetchOnWindowFocus: true,
+  refetchOnWindowFocus: false,
   cacheTime: 'Infinity',
   refetchOnReconnect: true,
   retry: 0,

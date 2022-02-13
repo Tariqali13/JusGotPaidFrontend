@@ -20,15 +20,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="281c5f14-7669-4862-9d39-2ea535ae98e8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/components/events/edit/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/admin/events/[eventId]/edit.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/profile/edit/components/profile.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/util/remove-class.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/constants/file-types.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/events/create/components/event-form.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/create/components/event-form.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/events/create/event-create.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/create/event-create.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/events/create/validations/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/validations/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/detail/components/event-detail-form.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/detail/components/event-detail-form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/detail/event-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/detail/event-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/edit/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/edit/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/events/events-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/events-manager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/events/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/layouts/secure-template/secure-template.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/layouts/secure-template/secure-template.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/profile/edit/components/edit-profile-form.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/profile/edit/components/edit-profile-form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/profile/edit/components/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/profile/edit/components/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/profile/edit/edit-profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/profile/edit/edit-profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/profile/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/profile/profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/uppy-file-uploader/uppy-file-uploader.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/uppy-file-uploader/uppy-file-uploader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/env.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/env.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/react-query-config.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/react-query-config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/events/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/events/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/events/passed-events.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/events/passed-events.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/admin.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,9 +73,17 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/components/layouts/secure-template" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/components/util" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
@@ -69,6 +95,8 @@
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Tariq ali\Desktop\RS Glow Tech\JusGotPaid\JusGotPaidFrontend\components\util" />
+      <recent name="C:\Users\Tariq ali\Desktop\RS Glow Tech\JusGotPaid\JusGotPaidFrontend\constants" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\layouts\secure-template" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components" />
     </key>
@@ -89,6 +117,8 @@
       <workItem from="1644396945605" duration="22883000" />
       <workItem from="1644522233502" duration="2172000" />
       <workItem from="1644570340191" duration="4296000" />
+      <workItem from="1644747786810" duration="1723000" />
+      <workItem from="1644750034124" duration="15376000" />
     </task>
     <servers />
   </component>
@@ -108,13 +138,33 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="551" y="275" key="#ESLint" timestamp="1644774001369">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="551" y="275" key="#ESLint/0.0.1366.728@0.0.1366.728" timestamp="1644774001369" />
+    <state x="444" y="166" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1644751409835">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="444" y="166" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1644751409835" />
+    <state x="184" y="9" key="SettingsEditor" timestamp="1644771448047">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="184" y="9" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1644771448047" />
     <state x="92" y="92" width="1182" height="544" key="dock-window-1" timestamp="1644322748539">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="92" y="92" width="1182" height="544" key="dock-window-1/0.0.1366.728@0.0.1366.728" timestamp="1644322748539" />
+    <state x="390" y="99" width="585" height="530" key="find.popup" timestamp="1644770703712">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="390" y="99" width="585" height="530" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1644770703712" />
     <state x="339" y="162" key="run.anything.popup" timestamp="1644483846393">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1644483846393" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1644779003253">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1644779003253" />
   </component>
 </project>

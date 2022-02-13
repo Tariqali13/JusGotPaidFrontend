@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import SecureTemplate from '@/layout/secure-template';
 import SearchHeader from '@/components/search-header';
-import { useTable  } from 'react-table';
+import { useTable } from 'react-table';
 import { useQuery, useMutation } from 'react-query';
 import Router from 'next/router';
 import { getLocalStorageValues } from '@/constants/local-storage';
@@ -10,9 +10,10 @@ import ProgressLoader from '@/components/loaders/progress-loader';
 import _get from 'lodash/get';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Message } from '@/components/alert/message';
-import { GET_EVENTS_DATA, DELETE_EVENT } from './queries';
-import { ConfirmationModal } from "@/components/modal";
+import { ConfirmationModal } from '@/components/modal';
 import Link from 'next/link';
+import TemplateContext from '@/layout/secure-template/context';
+import { GET_EVENTS_DATA, DELETE_EVENT } from './queries';
 
 const columns = [
   {
@@ -37,19 +38,23 @@ const columns = [
   // },
 ];
 
-const EventsManager = (props) => {
-  const { passedEvents  } = props;
+type Props = {
+  passedEvents: boolean,
+}
+const EventsManager = (props: Props) => {
+  const { passedEvents = false } = props;
+  const { userData } = useContext(TemplateContext);
+  const isAdmin = _get(userData, 'role', 'User') === 'Admin';
   const { user_id, user_role } = getLocalStorageValues();
   const isWindow = typeof window !== 'undefined';
   const splitUrl = isWindow && window.location.href.split('/');
   const [deleteModal, setDeleteModal] = useState(false);
   const [eventToDelete, setEventToDelete] = useState({});
   const toggleDeleteModal = () => setDeleteModal(!deleteModal);
-  console.log("deleteModal", deleteModal)
-  const [
-    deleteEvent,
-    {isLoading: isLoadingDelete},
-  ] = useMutation(DELETE_EVENT);
+  console.log('isAdmin', isAdmin, userData);
+  const [deleteEvent, { isLoading: isLoadingDelete }] = useMutation(
+    DELETE_EVENT,
+  );
 
   // if(user_role === "Admin") {
   //   var { data: eventsData, isLoading: isEventsDataLoading } = useQuery(
@@ -73,12 +78,13 @@ const EventsManager = (props) => {
   const handleDelete = id => {
     setDeleteModal(true);
     const findEvent = _get(eventsData, 'data', []).find(
-      event => event._id === id);
+      event => event._id === id,
+    );
     setEventToDelete(findEvent);
   };
 
-  var { data: eventsData, isLoading: isEventsDataLoading, refetch } = useQuery(
-    ['EVENTS_DATA', {passedEvents: props.passedEvents}],
+  const { data: eventsData, isLoading: isEventsDataLoading, refetch } = useQuery(
+    ['EVENTS_DATA', { passedEvents: passedEvents }],
     GET_EVENTS_DATA,
     {
       ...reactQueryConfig,
@@ -106,33 +112,37 @@ const EventsManager = (props) => {
   } = useTable({ columns, data: tableData });
 
   return (
-    <SecureTemplate>
+    <>
       <div id="content">
         <SearchHeader />
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-6 col-sm-12">
-              <h1 className="h3 mb-2 text-gray-800">{passedEvents ? "Passed Events" : "Current Events"}</h1>
+              <h1 className="h3 mb-2 text-gray-800">
+                {passedEvents ? 'Passed Events' : 'Current Events'}
+              </h1>
               <p className="mb-4">List of all the events</p>
             </div>
-            {
-              user_role !== "Admin" ? "": (
-                <div className="col-md-6 col-sm-12">
-              <button
-                className="btn btn-primary"
-                style={{ float: 'right' }}
-                onClick={() =>
-                  Router.push('/admin/events/create', '/admin/events/create', {
-                    shallow: true,
-                  })
-                }
-              >
-                {' '}
-                Create New Event{' '}
-              </button>
-            </div>
-              )
-            }
+            {isAdmin && (
+              <div className="col-md-6 col-sm-12">
+                <button
+                  className="btn btn-primary"
+                  style={{ float: 'right' }}
+                  onClick={() =>
+                    Router.push(
+                      '/admin/events/create',
+                      '/admin/events/create',
+                      {
+                        shallow: true,
+                      },
+                    )
+                  }
+                >
+                  {' '}
+                  Create New Event{' '}
+                </button>
+              </div>
+            )}
           </div>
           <div className="card shadow mb-4">
             <div className="card-body">
@@ -173,19 +183,11 @@ const EventsManager = (props) => {
                                 </td>
                               );
                             })}
-                            <td
-                            >
-                              {
-                                _get(
-                                  row,
-                                  'original.no_of_tickets',
-                                ) - _get(
-                                  row,
-                                  'original.no_of_tickets_sold',
-                                )
-                              }
+                            <td>
+                              {_get(row, 'original.no_of_tickets') -
+                                _get(row, 'original.no_of_tickets_sold')}
                             </td>
-                            <td className="d-flex justify-content-between align-items-center " >
+                            <td className="d-flex justify-content-between align-items-center ">
                               <i
                                 className="fa fa-eye cursor-pointer icon-hover"
                                 onClick={() =>
@@ -198,21 +200,25 @@ const EventsManager = (props) => {
                                   )
                                 }
                               />
-                              <Link href={`/admin/events/${_get(
-                                row,
-                                'original._id',
-                              )}/edit`}>
-                              <i
-                                className="fa fa-edit cursor-pointer icon-hover "
-                              />
-                              </Link>
-                              <i
-                                className="fa fa-trash cursor-pointer icon-hover"
-                                onClick={() =>{
-                                  setDeleteModal(true);
-                                  setEventToDelete(row.original);
-                                }}
-                              />
+                              {isAdmin && (
+                                <Link
+                                  href={`/admin/events/${_get(
+                                    row,
+                                    'original._id',
+                                  )}/edit`}
+                                >
+                                  <i className="fa fa-edit cursor-pointer icon-hover " />
+                                </Link>
+                              )}
+                              {isAdmin && (
+                                <i
+                                  className="fa fa-trash cursor-pointer icon-hover"
+                                  onClick={() => {
+                                    setDeleteModal(true);
+                                    setEventToDelete(row.original);
+                                  }}
+                                />
+                              )}
                               <CopyToClipboard
                                 text={`${window.location.protocol}://${
                                   splitUrl[2]
@@ -226,15 +232,9 @@ const EventsManager = (props) => {
                                   })
                                 }
                               >
-                                <i className="fa fa-link cursor-pointer icon-hover">
-                                </i>
+                                <i className="fa fa-link cursor-pointer icon-hover"></i>
                               </CopyToClipboard>
                             </td>
-                            <td
-                              dataId={_get( eventsData,'_id')}
-                              isDelete={true}
-                              handleDelete={handleDelete}
-                            />
                           </tr>
                         );
                       })}
@@ -264,7 +264,7 @@ const EventsManager = (props) => {
       {(isEventsDataLoading || isLoadingDelete) && (
         <ProgressLoader isLoading={isEventsDataLoading || isLoadingDelete} />
       )}
-    </SecureTemplate>
+    </>
   );
 };
 
