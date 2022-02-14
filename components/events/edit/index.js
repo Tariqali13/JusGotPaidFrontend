@@ -32,7 +32,6 @@ const EventEdit = () => {
       },
     },
   );
-  console.log('eventData', eventData);
   return (
     <SecureTemplate>
       <div id="content">

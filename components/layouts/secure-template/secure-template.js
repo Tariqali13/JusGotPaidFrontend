@@ -24,7 +24,6 @@ const SecureTemplate = (props: Props) => {
   // const { user_auth_token, user_role } = getLocalStorageValues();
   const { user_auth_token, user_id } = getLocalStorageValues();
   const isEnabled = typeof user_id === "string";
-  console.log("user_id", user_id)
   const {
     data: userData,
     refetch: refetchUserData,
@@ -37,7 +36,6 @@ const SecureTemplate = (props: Props) => {
       Router.push('/login', '/login', { shallow: true });
     },
   });
-  console.log("userData", userData);
   Router.onRouteChangeStart = () => {
     NProgress.start();
   };
