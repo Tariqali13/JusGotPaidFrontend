@@ -22,8 +22,8 @@
     <list default="true" id="281c5f14-7669-4862-9d39-2ea535ae98e8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/events/edit/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/edit/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layouts/secure-template/secure-template.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/layouts/secure-template/secure-template.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/events-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/events-manager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/admin.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +96,7 @@
       <workItem from="1644570340191" duration="4296000" />
       <workItem from="1644747786810" duration="1723000" />
       <workItem from="1644750034124" duration="15410000" />
-      <workItem from="1644819451942" duration="7963000" />
+      <workItem from="1644819451942" duration="8908000" />
     </task>
     <servers />
   </component>

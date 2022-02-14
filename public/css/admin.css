@@ -11282,7 +11282,7 @@ body.sidebar-toggled footer.sticky-footer {
   color: white;
   cursor: pointer;
   top: -10px;
-  left: -10px;
+  /*left: -10px;*/
 }
 
 .avatar-image-remove-icon {

@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SearchHeader from '@/components/search-header';
 import { useTable } from 'react-table';
 import { useQuery, useMutation } from 'react-query';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { getLocalStorageValues } from '@/constants/local-storage';
 import reactQueryConfig from '@/constants/react-query-config';
 import ProgressLoader from '@/components/loaders/progress-loader';
@@ -44,6 +44,7 @@ type Props = {
 };
 const EventsManager = (props: Props) => {
   const { passedEvents = false } = props;
+  const router = useRouter();
   const { userData } = useContext(TemplateContext);
   const isAdmin = _get(userData, 'role', 'User') === 'Admin';
   const { user_id } = getLocalStorageValues();
@@ -147,6 +148,9 @@ const EventsManager = (props: Props) => {
       page_no: page,
     });
   };
+  useEffect(() => {
+    refetch();
+  }, [router.pathname]);
   return (
     <>
       <div id="content">
