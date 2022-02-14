@@ -23,6 +23,7 @@
     "@uppy/react": "^2.1.1",
     "@uppy/url": "^2.0.4",
     "axios": "^0.19.2",
+    "babel-plugin-styled-components": "^2.0.2",
     "formik": "^2.1.4",
     "history": "^4.10.1",
     "lodash": "^4.17.20",

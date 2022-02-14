@@ -6,9 +6,7 @@ const Footer = () => {
   return (
     <FooterWrapper className="py-5">
       <div className="container">
-        <CopyRights>
-          &copy; 2021 All Rights Reserved.
-        </CopyRights>
+        <CopyRights>&copy; 2021 All Rights Reserved.</CopyRights>
       </div>
     </FooterWrapper>
   );

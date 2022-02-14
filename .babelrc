@@ -1,4 +1,4 @@
 {
   "presets": ["next/babel", "@babel/preset-flow"],
-  "plugins": ["transform-flow-strip-types"]
+  "plugins": ["transform-flow-strip-types", ["styled-components", { "ssr": true }]]
 }

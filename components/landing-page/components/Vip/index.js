@@ -5,9 +5,7 @@ import { Wrapper, Heading } from './style';
 const Vip = () => {
   return (
     <Wrapper>
-        <Heading>
-            vip
-        </Heading>
+      <Heading>vip</Heading>
     </Wrapper>
   );
 };

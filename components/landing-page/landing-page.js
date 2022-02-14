@@ -2,23 +2,22 @@
 import React from 'react';
 import MarketingTemplate from '@/layout/marketing-template';
 import {
-  Header,
   Portfolio,
   Information,
   Sponsors,
   Vip,
   Vidoes,
   Events,
-  Started
+  Started,
 } from './components';
 
-const LandingPage = () => {
+const LandingPage = props => {
   return (
     <MarketingTemplate>
       <Started />
-      <Events/>
-      <Vidoes/>
-      <Vip/>
+      <Events {...props} />
+      <Vidoes />
+      <Vip />
       <Portfolio />
       <Sponsors />
       <Information />

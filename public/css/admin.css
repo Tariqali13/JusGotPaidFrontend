@@ -11292,3 +11292,8 @@ body.sidebar-toggled footer.sticky-footer {
 /*.custom-cursor {*/
 /*  cursor: url(../img/cursor-red.gif), url(../img/cursor-red.cur),url(../img/cursor-red.png), default;*/
 /*}*/
+
+.btn-disable {
+  background-color: grey;
+  color: white;
+}

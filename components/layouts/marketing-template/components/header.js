@@ -142,7 +142,7 @@ const Header = (props: Props) => {
                       as="/login"
                     >
                       <a className="nav-link js-scroll-trigger">
-                        Login 
+                        Login
                       </a>
                     </Link>
                 </li> */}

@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import SecureTemplate from '@/layout/secure-template';
 import SearchHeader from '@/components/search-header';
 import { useTable } from 'react-table';
 import { useQuery, useMutation } from 'react-query';
@@ -13,6 +12,8 @@ import { Message } from '@/components/alert/message';
 import { ConfirmationModal } from '@/components/modal';
 import Link from 'next/link';
 import TemplateContext from '@/layout/secure-template/context';
+import Pagination from '@/utils/pagination';
+import AdminPagination from '@/components/pagination';
 import { GET_EVENTS_DATA, DELETE_EVENT } from './queries';
 
 const columns = [
@@ -40,22 +41,26 @@ const columns = [
 
 type Props = {
   passedEvents: boolean,
-}
+};
 const EventsManager = (props: Props) => {
   const { passedEvents = false } = props;
   const { userData } = useContext(TemplateContext);
   const isAdmin = _get(userData, 'role', 'User') === 'Admin';
-  const { user_id, user_role } = getLocalStorageValues();
+  const { user_id } = getLocalStorageValues();
   const isWindow = typeof window !== 'undefined';
   const splitUrl = isWindow && window.location.href.split('/');
   const [deleteModal, setDeleteModal] = useState(false);
   const [eventToDelete, setEventToDelete] = useState({});
   const toggleDeleteModal = () => setDeleteModal(!deleteModal);
-  console.log('isAdmin', isAdmin, userData);
   const [deleteEvent, { isLoading: isLoadingDelete }] = useMutation(
     DELETE_EVENT,
   );
-
+  const [eventParams, setEventParams] = useState({
+    records_per_page: 6,
+    page_no: 1,
+    events_passed: passedEvents,
+  });
+  const [paginationData, setPaginationData] = useState({});
   // if(user_role === "Admin") {
   //   var { data: eventsData, isLoading: isEventsDataLoading } = useQuery(
   //     ['EVENTS_DATA', { id: user_id }],
@@ -83,13 +88,26 @@ const EventsManager = (props: Props) => {
     setEventToDelete(findEvent);
   };
 
-  const { data: eventsData, isLoading: isEventsDataLoading, refetch } = useQuery(
-    ['EVENTS_DATA', { passedEvents: passedEvents }],
-    GET_EVENTS_DATA,
-    {
-      ...reactQueryConfig,
+  const {
+    data: eventsData,
+    isLoading: isEventsDataLoading,
+    refetch,
+  } = useQuery(['EVENTS_DATA', eventParams], GET_EVENTS_DATA, {
+    ...reactQueryConfig,
+    onSuccess: res => {
+      // eslint-disable-next-line no-undef
+      const { result } = Pagination(
+        res.records_per_page,
+        res.total_number_of_events,
+        res.page_no,
+        res.data.length,
+      );
+      return setPaginationData(result);
     },
-  );
+    onError: () => {
+      setPaginationData({});
+    },
+  });
   const handleConfirmDelete = async () => {
     toggleDeleteModal();
     await deleteEvent(_get(eventToDelete, '_id', ''), {
@@ -111,6 +129,24 @@ const EventsManager = (props: Props) => {
     prepareRow,
   } = useTable({ columns, data: tableData });
 
+  const handleNext = page => {
+    setEventParams({
+      ...eventParams,
+      page_no: parseInt(page),
+    });
+  };
+  const handlePrevious = page => {
+    setEventParams({
+      ...eventParams,
+      page_no: parseInt(page),
+    });
+  };
+  const handlePageSelect = page => {
+    setEventParams({
+      ...eventParams,
+      page_no: page,
+    });
+  };
   return (
     <>
       <div id="content">
@@ -214,8 +250,7 @@ const EventsManager = (props: Props) => {
                                 <i
                                   className="fa fa-trash cursor-pointer icon-hover"
                                   onClick={() => {
-                                    setDeleteModal(true);
-                                    setEventToDelete(row.original);
+                                    handleDelete(row.original._id);
                                   }}
                                 />
                               )}
@@ -240,6 +275,12 @@ const EventsManager = (props: Props) => {
                       })}
                     </tbody>
                   </table>
+                  <AdminPagination
+                    paginationData={paginationData}
+                    handlePageSelect={handlePageSelect}
+                    handlePrevious={handlePrevious}
+                    handleNext={handleNext}
+                  />
                 </div>
               </div>
             </div>

@@ -10190,3 +10190,20 @@ header.masthead h1 {
   }
 }
 /* End CSS Written by Muhammad Talha Jamshed */
+
+
+.event-card {
+  border: 1px solid rgb(238, 0, 51);
+  border-radius : 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background: transparent;
+}
+.event-card:hover{
+  background: rgb(238, 0, 51);
+  color: #fff;
+}
+
+.event-card:hover > .card-body > p > span {
+  color: #fff;
+}
