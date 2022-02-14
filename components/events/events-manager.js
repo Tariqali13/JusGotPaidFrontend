@@ -57,7 +57,7 @@ const EventsManager = (props: Props) => {
     DELETE_EVENT,
   );
   const [eventParams, setEventParams] = useState({
-    records_per_page: 6,
+    records_per_page: 5,
     page_no: 1,
     events_passed: passedEvents,
   });

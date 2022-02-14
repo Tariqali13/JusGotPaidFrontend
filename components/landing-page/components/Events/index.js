@@ -28,7 +28,7 @@ type Props = {
 const Events = (props: Props) => {
   const { allRes } = props;
   const [eventParams, setEventParams] = useState({
-    records_per_page: 6,
+    records_per_page: 8,
     page_no: 1,
     events_passed: false,
   });
