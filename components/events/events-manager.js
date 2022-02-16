@@ -14,6 +14,7 @@ import Link from 'next/link';
 import TemplateContext from '@/layout/secure-template/context';
 import Pagination from '@/utils/pagination';
 import AdminPagination from '@/components/pagination';
+import { Input } from 'reactstrap';
 import { GET_EVENTS_DATA, DELETE_EVENT } from './queries';
 
 const columns = [
@@ -33,6 +34,19 @@ const columns = [
     Header: 'Event Location',
     accessor: 'event_location',
   },
+  {
+    Header: 'Ticket Price',
+    accessor: 'ticket_price',
+  },
+  {
+    Header: 'Tickets Sold',
+    accessor: 'tickets_sold',
+  },
+  {
+    Header: 'Total Sales',
+    accessor: 'total_sales',
+  },
+
   // {
   //   Header: 'Available Tickets',
   //   accessor: 'no_of_tickets',
@@ -43,7 +57,7 @@ type Props = {
   passedEvents: boolean,
 };
 const EventsManager = (props: Props) => {
-  const { passedEvents = false } = props;
+  const { passedEvents, hiddenEvents = false } = props;
   const router = useRouter();
   const { userData } = useContext(TemplateContext);
   const isAdmin = _get(userData, 'role', 'User') === 'Admin';
@@ -61,6 +75,7 @@ const EventsManager = (props: Props) => {
     page_no: 1,
     events_passed: passedEvents,
   });
+
   const [paginationData, setPaginationData] = useState({});
   // if(user_role === "Admin") {
   //   var { data: eventsData, isLoading: isEventsDataLoading } = useQuery(
@@ -159,11 +174,13 @@ const EventsManager = (props: Props) => {
           <div className="row">
             <div className="col-md-6 col-sm-12">
               <h1 className="h3 mb-2 text-gray-800">
-                {passedEvents ? 'Passed Events' : 'Current Events'}
+                {passedEvents && 'Passed Events'}
+                {hiddenEvents && 'Hidden Events'}
+                {!passedEvents && !hiddenEvents && 'Current Events'}
               </h1>
               <p className="mb-4">List of all the events</p>
             </div>
-            {isAdmin && (
+            {isAdmin && !hiddenEvents && (
               <div className="col-md-6 col-sm-12">
                 <button
                   className="btn btn-primary"
@@ -204,6 +221,7 @@ const EventsManager = (props: Props) => {
                             </th>
                           ))}
                           <th>Available Tickets</th>
+                          <th>Hidden</th>
                           <th>Actions</th>
                         </tr>
                       ))}
@@ -226,6 +244,9 @@ const EventsManager = (props: Props) => {
                             <td>
                               {_get(row, 'original.no_of_tickets') -
                                 _get(row, 'original.no_of_tickets_sold')}
+                            </td>
+                            <td className="text-center">
+                              <Input type="checkbox" />
                             </td>
                             <td className="d-flex justify-content-between align-items-center ">
                               <i
@@ -258,21 +279,21 @@ const EventsManager = (props: Props) => {
                                   }}
                                 />
                               )}
-                              <CopyToClipboard
-                                text={`${window.location.protocol}://${
-                                  splitUrl[2]
-                                }/influencer/${user_id}/event/${_get(
-                                  row,
-                                  'original._id',
-                                )}`}
-                                onCopy={() =>
-                                  Message.success(null, {
-                                    message: 'Link Copied',
-                                  })
-                                }
-                              >
-                                <i className="fa fa-link cursor-pointer icon-hover"></i>
-                              </CopyToClipboard>
+                              {/* <CopyToClipboard */}
+                              {/*  text={`${window.location.protocol}://${ */}
+                              {/*    splitUrl[2] */}
+                              {/*  }/influencer/${user_id}/event/${_get( */}
+                              {/*    row, */}
+                              {/*    'original._id', */}
+                              {/*  )}`} */}
+                              {/*  onCopy={() => */}
+                              {/*    Message.success(null, { */}
+                              {/*      message: 'Link Copied', */}
+                              {/*    }) */}
+                              {/*  } */}
+                              {/* > */}
+                              {/*  <i className="fa fa-link cursor-pointer icon-hover"></i> */}
+                              {/* </CopyToClipboard> */}
                             </td>
                           </tr>
                         );

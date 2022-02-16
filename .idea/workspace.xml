@@ -19,11 +19,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="281c5f14-7669-4862-9d39-2ea535ae98e8" name="Default Changelist" comment="">
+    <list default="true" id="9c827929-4824-4702-bae5-7c2f5b7f7fb8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/admin/events/hidden-events.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/events/events-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/events-manager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/secure-template-company.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/secure-template-company.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/secure-template.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/secure-template.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/events/passed-events.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/events/passed-events.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,18 +68,18 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\pages\admin\events" />
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\events" />
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\pages\admin\events\[eventId]" />
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile\edit\components" />
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile\edit" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Tariq ali\Desktop\RS Glow Tech\JusGotPaid\JusGotPaidFrontend\components\util" />
       <recent name="C:\Users\Tariq ali\Desktop\RS Glow Tech\JusGotPaid\JusGotPaidFrontend\constants" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\layouts\secure-template" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\events" />
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\pages\admin\events\[eventId]" />
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile\edit\components" />
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile\edit" />
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile" />
     </key>
   </component>
   <component name="SvnConfiguration">
