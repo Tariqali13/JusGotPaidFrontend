@@ -19,15 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c827929-4824-4702-bae5-7c2f5b7f7fb8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/admin/events/hidden-events.js" afterDir="false" />
+    <list default="true" id="281c5f14-7669-4862-9d39-2ea535ae98e8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/detail/components/event-detail-form.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/detail/components/event-detail-form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/detail/event-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/detail/event-details.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/events/events-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/events-manager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/secure-template-company.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/secure-template-company.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/secure-template.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/secure-template.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/admin/events/passed-events.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/events/passed-events.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

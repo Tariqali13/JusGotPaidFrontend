@@ -205,7 +205,7 @@ const EventDetailForm = (props: Props) => {
             <div className="form-row justify-content-center">
               <div className="form-group">
                 <button
-                  disabled={!dirty || isSubmitting}
+                  disabled={isSubmitting}
                   className="btn btn-primary"
                   onClick={e => {
                     e.preventDefault();

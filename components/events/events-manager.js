@@ -40,11 +40,7 @@ const columns = [
   },
   {
     Header: 'Tickets Sold',
-    accessor: 'tickets_sold',
-  },
-  {
-    Header: 'Total Sales',
-    accessor: 'total_sales',
+    accessor: 'no_of_tickets_sold',
   },
 
   // {
@@ -220,6 +216,7 @@ const EventsManager = (props: Props) => {
                               {column.render('Header')}
                             </th>
                           ))}
+                          <th>Total Sales</th>
                           <th>Available Tickets</th>
                           <th>Hidden</th>
                           <th>Actions</th>
@@ -241,6 +238,10 @@ const EventsManager = (props: Props) => {
                                 </td>
                               );
                             })}
+                            <td>
+                              {_get(row, 'original.ticket_price', 0) *
+                                _get(row, 'original.no_of_tickets_sold', 0)}
+                            </td>
                             <td>
                               {_get(row, 'original.no_of_tickets') -
                                 _get(row, 'original.no_of_tickets_sold')}
