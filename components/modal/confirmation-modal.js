@@ -13,6 +13,7 @@ type Props = {
   isConfirmButton: boolean,
   handleConfirmButton: () => void,
   confirmButtonText: string,
+  size?: string,
 };
 
 const ConfirmationModal = (props: Props) => {
@@ -27,9 +28,10 @@ const ConfirmationModal = (props: Props) => {
     handleConfirmButton,
     isCancelButton,
     isConfirmButton,
+    size,
   } = props;
   return (
-    <Modal toggle={toggleModal} isOpen={modalOpen} centered={true}>
+    <Modal toggle={toggleModal} isOpen={modalOpen} centered={true} size={size}>
       <div className=" modal-header">
         <h5 className=" modal-title" id="exampleModalLabel">
           {heading || ""}

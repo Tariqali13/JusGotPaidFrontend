@@ -20,11 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="281c5f14-7669-4862-9d39-2ea535ae98e8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/components/events/components/event-view-modal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/events/components/events-actions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/events/components/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/events/detail/components/event-detail-form.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/detail/components/event-detail-form.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/events/detail/event-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/detail/event-details.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/events/events-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/events-manager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/events/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/modal/confirmation-modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/modal/confirmation-modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,6 +103,7 @@
       <workItem from="1644747786810" duration="1723000" />
       <workItem from="1644750034124" duration="15410000" />
       <workItem from="1644819451942" duration="9277000" />
+      <workItem from="1645465374666" duration="8507000" />
     </task>
     <servers />
   </component>
@@ -141,10 +147,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="390" y="99" width="585" height="530" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1644827887428" />
-    <state x="339" y="162" key="run.anything.popup" timestamp="1644483846393">
+    <state x="339" y="162" key="run.anything.popup" timestamp="1645473294691">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1644483846393" />
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1645473294691" />
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1644826389115">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

@@ -15,6 +15,13 @@ export const GET_EVENTS_DATA = async (key, e) => {
   return res.data;
 };
 
+export const GET_EVENTS_TRAN_DATA = async (key, e) => {
+  const res = await axios.get(`${baseURL}/v1/transaction`, {
+    params: e,
+  });
+  return res.data;
+};
+
 export const GET_INFLUENCER_EVENTS_DATA = async (key, e) => {
   const res = await axios.get(`${baseURL}/v1/event/influencer/${e.id}`);
   return res.data;

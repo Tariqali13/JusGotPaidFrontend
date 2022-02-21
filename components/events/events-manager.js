@@ -1,37 +1,43 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SearchHeader from '@/components/search-header';
 import { useTable } from 'react-table';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, isError } from 'react-query';
 import Router, { useRouter } from 'next/router';
 import { getLocalStorageValues } from '@/constants/local-storage';
 import reactQueryConfig from '@/constants/react-query-config';
 import ProgressLoader from '@/components/loaders/progress-loader';
 import _get from 'lodash/get';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+// import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Message } from '@/components/alert/message';
 import { ConfirmationModal } from '@/components/modal';
-import Link from 'next/link';
 import TemplateContext from '@/layout/secure-template/context';
 import Pagination from '@/utils/pagination';
 import AdminPagination from '@/components/pagination';
 import { Input } from 'reactstrap';
-import { GET_EVENTS_DATA, DELETE_EVENT, UPDATE_EVENT_HIDDEN } from './queries';
+import { EventsActions, EventViewModal } from './components';
+import {
+  GET_EVENTS_DATA,
+  DELETE_EVENT,
+  UPDATE_EVENT_HIDDEN,
+  GET_EVENTS_TRAN_DATA,
+  GET_EVENT_BY_ID,
+} from './queries';
 
 const columns = [
   {
-    Header: 'Event Name',
+    Header: 'Name',
     accessor: 'event_name', // accessor is the "key" in the data
   },
   {
-    Header: 'Event Type',
+    Header: 'Type',
     accessor: 'event_type',
   },
   {
-    Header: 'Event Date',
+    Header: 'Date',
     accessor: 'event_date',
   },
   {
-    Header: 'Event Location',
+    Header: 'Location',
     accessor: 'event_location',
   },
   {
@@ -64,6 +70,9 @@ const EventsManager = (props: Props) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [eventToDelete, setEventToDelete] = useState({});
   const toggleDeleteModal = () => setDeleteModal(!deleteModal);
+  const [viewModal, setViewModal] = useState(false);
+  const [eventToView, setEventToView] = useState({});
+  const toggleViewModal = () => setViewModal(!viewModal);
   const [deleteEvent, { isLoading: isLoadingDelete }] = useMutation(
     DELETE_EVENT,
   );
@@ -75,10 +84,10 @@ const EventsManager = (props: Props) => {
     page_no: 1,
     events_passed: passedEvents,
     is_hidden: hiddenEvents,
-    all_events: hiddenEvents ? true : false,
+    all_events: !!hiddenEvents,
   });
 
-  const [paginationData, setPaginationData] = useState( {});
+  const [paginationData, setPaginationData] = useState({});
   // if(user_role === "Admin") {
   //   var { data: eventsData, isLoading: isEventsDataLoading } = useQuery(
   //     ['EVENTS_DATA', { id: user_id }],
@@ -109,6 +118,7 @@ const EventsManager = (props: Props) => {
   const {
     data: eventsData,
     isLoading: isEventsDataLoading,
+    isError,
     refetch,
   } = useQuery(['EVENTS_DATA', eventParams], GET_EVENTS_DATA, {
     ...reactQueryConfig,
@@ -126,6 +136,34 @@ const EventsManager = (props: Props) => {
       setPaginationData({});
     },
   });
+
+  const enableTrans = typeof _get(eventToView, '_id') === 'string';
+  const { data: transData, isLoading: isLoadingTransData } = useQuery(
+    [
+      'GET_EVENTS_TRAN_DATA',
+      {
+        event_id: _get(eventToView, '_id', ''),
+      },
+    ],
+    GET_EVENTS_TRAN_DATA,
+    {
+      ...reactQueryConfig,
+      enabled: enableTrans,
+    },
+  );
+  const { data: eventData, isLoading: isLoadingEventData } = useQuery(
+    [
+      'GET_EVENT_BY_ID',
+      {
+        id: _get(eventToView, '_id', ''),
+      },
+    ],
+    GET_EVENT_BY_ID,
+    {
+      ...reactQueryConfig,
+      enabled: enableTrans,
+    },
+  );
   const handleConfirmDelete = async () => {
     toggleDeleteModal();
     await deleteEvent(_get(eventToDelete, '_id', ''), {
@@ -187,6 +225,14 @@ const EventsManager = (props: Props) => {
   useEffect(() => {
     refetch();
   }, [router.pathname]);
+  const handleViewEvent = event => {
+    setEventToView(event);
+    setViewModal(true);
+  };
+  const handleConfirmClose = () => {
+    setEventToView({});
+    setViewModal(false);
+  };
   return (
     <>
       <div id="content">
@@ -243,7 +289,7 @@ const EventsManager = (props: Props) => {
                           ))}
                           <th>Total Sales</th>
                           <th>Available Tickets</th>
-                          <th>Hidden</th>
+                          {isAdmin && <th>Hidden</th>}
                           <th>Actions</th>
                         </tr>
                       ))}
@@ -271,49 +317,33 @@ const EventsManager = (props: Props) => {
                               {_get(row, 'original.no_of_tickets') -
                                 _get(row, 'original.no_of_tickets_sold')}
                             </td>
-                            <td className="text-center">
-                              <Input
-                                type="checkbox"
-                                checked={_get(row, 'original.is_hidden', false)}
-                                onChange={() =>
-                                  handleHidden(
-                                    _get(row, 'original._id'),
-                                    _get(row, 'original.is_hidden', false),
-                                  )
-                                }
-                              />
-                            </td>
-                            <td className="d-flex justify-content-between align-items-center ">
-                              <i
-                                className="fa fa-eye cursor-pointer icon-hover"
-                                onClick={() =>
-                                  window.open(
-                                    `/influencer/${user_id}/event/${_get(
-                                      row,
-                                      'original._id',
-                                    )}`,
-                                    '_blank',
-                                  )
-                                }
-                              />
-                              {isAdmin && (
-                                <Link
-                                  href={`/admin/events/${_get(
+                            {isAdmin && (
+                              <td className="text-center">
+                                <Input
+                                  style={{ position: 'relative' }}
+                                  type="checkbox"
+                                  checked={_get(
                                     row,
-                                    'original._id',
-                                  )}/edit`}
-                                >
-                                  <i className="fa fa-edit cursor-pointer icon-hover " />
-                                </Link>
-                              )}
-                              {isAdmin && (
-                                <i
-                                  className="fa fa-trash cursor-pointer icon-hover"
-                                  onClick={() => {
-                                    handleDelete(row.original._id);
-                                  }}
+                                    'original.is_hidden',
+                                    false,
+                                  )}
+                                  onChange={() =>
+                                    handleHidden(
+                                      _get(row, 'original._id'),
+                                      _get(row, 'original.is_hidden', false),
+                                    )
+                                  }
                                 />
-                              )}
+                              </td>
+                            )}
+                            <td className="text-center">
+                              <EventsActions
+                                user_id={user_id}
+                                isAdmin={isAdmin}
+                                row={row}
+                                handleDelete={handleDelete}
+                                handleViewEvent={handleViewEvent}
+                              />
                               {/* <CopyToClipboard */}
                               {/*  text={`${window.location.protocol}://${ */}
                               {/*    splitUrl[2] */}
@@ -335,12 +365,17 @@ const EventsManager = (props: Props) => {
                       })}
                     </tbody>
                   </table>
-                  <AdminPagination
-                    paginationData={paginationData}
-                    handlePageSelect={handlePageSelect}
-                    handlePrevious={handlePrevious}
-                    handleNext={handleNext}
-                  />
+                  {(_get(eventsData, 'data', []).length === 0 || isError) && (
+                    <h3 className="text-center">No Events Found</h3>
+                  )}
+                  {_get(eventsData, 'data', []).length > 0 && !isError && (
+                    <AdminPagination
+                      paginationData={paginationData}
+                      handlePageSelect={handlePageSelect}
+                      handlePrevious={handlePrevious}
+                      handleNext={handleNext}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -362,9 +397,35 @@ const EventsManager = (props: Props) => {
           <strong>{eventToDelete?.event_name}</strong> ?
         </p>
       </ConfirmationModal>
-      {(isEventsDataLoading || isLoadingDelete || isLoadingHidden) && (
+      <ConfirmationModal
+        size="lg"
+        heading={`Event Preview - ${_get(eventToView, 'event_name')}`}
+        modalOpen={viewModal}
+        toggleModal={toggleViewModal}
+        handleCancelButton={toggleViewModal}
+        isCancelButton={false}
+        isConfirmButton={true}
+        confirmButtonText="Close"
+        handleConfirmButton={handleConfirmClose}
+      >
+        <EventViewModal
+          eventData={_get(eventData, 'data', {})}
+          transData={_get(transData, 'data', {})}
+        />
+      </ConfirmationModal>
+      {(isEventsDataLoading ||
+        isLoadingDelete ||
+        isLoadingHidden ||
+        isLoadingTransData ||
+        isLoadingEventData) && (
         <ProgressLoader
-          isLoading={isEventsDataLoading || isLoadingDelete || isLoadingHidden}
+          isLoading={
+            isEventsDataLoading ||
+            isLoadingDelete ||
+            isLoadingHidden ||
+            isLoadingTransData ||
+            isLoadingEventData
+          }
         />
       )}
     </>
