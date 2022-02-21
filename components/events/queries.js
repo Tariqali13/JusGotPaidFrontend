@@ -29,3 +29,8 @@ export const UPDATE_EVENT = async e => {
   const res = await axios.patch(`${baseURL}/v1/event/${e.id}`, e.data);
   return res.data;
 };
+
+export const UPDATE_EVENT_HIDDEN = async e => {
+  const res = await axios.patch(`${baseURL}/v1/event/hidden/${e.id}`, e.data);
+  return res.data;
+};

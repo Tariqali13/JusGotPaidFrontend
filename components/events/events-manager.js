@@ -15,7 +15,7 @@ import TemplateContext from '@/layout/secure-template/context';
 import Pagination from '@/utils/pagination';
 import AdminPagination from '@/components/pagination';
 import { Input } from 'reactstrap';
-import { GET_EVENTS_DATA, DELETE_EVENT } from './queries';
+import { GET_EVENTS_DATA, DELETE_EVENT, UPDATE_EVENT_HIDDEN } from './queries';
 
 const columns = [
   {
@@ -53,6 +53,7 @@ type Props = {
   passedEvents: boolean,
 };
 const EventsManager = (props: Props) => {
+  // eslint-disable-next-line react/prop-types
   const { passedEvents, hiddenEvents = false } = props;
   const router = useRouter();
   const { userData } = useContext(TemplateContext);
@@ -66,13 +67,18 @@ const EventsManager = (props: Props) => {
   const [deleteEvent, { isLoading: isLoadingDelete }] = useMutation(
     DELETE_EVENT,
   );
+  const [updateHiddenEvent, { isLoading: isLoadingHidden }] = useMutation(
+    UPDATE_EVENT_HIDDEN,
+  );
   const [eventParams, setEventParams] = useState({
     records_per_page: 5,
     page_no: 1,
     events_passed: passedEvents,
+    is_hidden: hiddenEvents,
+    all_events: hiddenEvents ? true : false,
   });
 
-  const [paginationData, setPaginationData] = useState({});
+  const [paginationData, setPaginationData] = useState( {});
   // if(user_role === "Admin") {
   //   var { data: eventsData, isLoading: isEventsDataLoading } = useQuery(
   //     ['EVENTS_DATA', { id: user_id }],
@@ -158,6 +164,25 @@ const EventsManager = (props: Props) => {
       ...eventParams,
       page_no: page,
     });
+  };
+  const handleHidden = async (id, status) => {
+    await updateHiddenEvent(
+      {
+        id,
+        data: {
+          status: !status,
+        },
+      },
+      {
+        onSuccess: async res => {
+          await refetch();
+          Message.success(res);
+        },
+        onError: error => {
+          Message.error(error);
+        },
+      },
+    );
   };
   useEffect(() => {
     refetch();
@@ -247,7 +272,16 @@ const EventsManager = (props: Props) => {
                                 _get(row, 'original.no_of_tickets_sold')}
                             </td>
                             <td className="text-center">
-                              <Input type="checkbox" />
+                              <Input
+                                type="checkbox"
+                                checked={_get(row, 'original.is_hidden', false)}
+                                onChange={() =>
+                                  handleHidden(
+                                    _get(row, 'original._id'),
+                                    _get(row, 'original.is_hidden', false),
+                                  )
+                                }
+                              />
                             </td>
                             <td className="d-flex justify-content-between align-items-center ">
                               <i
@@ -328,8 +362,10 @@ const EventsManager = (props: Props) => {
           <strong>{eventToDelete?.event_name}</strong> ?
         </p>
       </ConfirmationModal>
-      {(isEventsDataLoading || isLoadingDelete) && (
-        <ProgressLoader isLoading={isEventsDataLoading || isLoadingDelete} />
+      {(isEventsDataLoading || isLoadingDelete || isLoadingHidden) && (
+        <ProgressLoader
+          isLoading={isEventsDataLoading || isLoadingDelete || isLoadingHidden}
+        />
       )}
     </>
   );

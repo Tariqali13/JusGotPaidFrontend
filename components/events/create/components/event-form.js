@@ -1,4 +1,3 @@
-// @flow
 import React, { useState } from 'react';
 import { Field } from 'formik';
 import { fieldValidate, fieldValidateBool } from '@/utils/form-utils';
