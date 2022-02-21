@@ -5,10 +5,11 @@ import moment from 'moment';
 type Props = {
   eventData: any,
   transData: any,
+  isAdmin: boolean,
 };
 
 const EventViewModal = (props: Props) => {
-  const { eventData, transData } = props;
+  const { eventData, transData, isAdmin } = props;
   return (
     <div>
       <h3 className="my-3">Basic Information</h3>
@@ -65,7 +66,7 @@ const EventViewModal = (props: Props) => {
           </div>
         </>
       )}
-      {transData.length > 0 && (
+      {transData.length > 0 && isAdmin && (
         <>
           <hr className="my-3" />
           <h3 className="my-3">Transactions</h3>

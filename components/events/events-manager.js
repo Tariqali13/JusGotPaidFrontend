@@ -148,7 +148,7 @@ const EventsManager = (props: Props) => {
     GET_EVENTS_TRAN_DATA,
     {
       ...reactQueryConfig,
-      enabled: enableTrans,
+      enabled: enableTrans && isAdmin,
     },
   );
   const { data: eventData, isLoading: isLoadingEventData } = useQuery(
@@ -411,6 +411,7 @@ const EventsManager = (props: Props) => {
         <EventViewModal
           eventData={_get(eventData, 'data', {})}
           transData={_get(transData, 'data', {})}
+          isAdmin={isAdmin}
         />
       </ConfirmationModal>
       {(isEventsDataLoading ||
