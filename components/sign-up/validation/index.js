@@ -11,7 +11,7 @@ export const validateSignUpForm = Yup.object().shape({
   email: Yup.string()
     .email('Email must be valid email')
     .required('Email is mandatory'),
-  referral_link: Yup.string(),
+  referral_link: Yup.string().required('Referral Link is Mandatory'),
   // role: Yup.string().required('Role is mandatory'),
   // referral_link: Yup.string().when('role', {
   //   is: (role) => {return role === 'Influencer'},

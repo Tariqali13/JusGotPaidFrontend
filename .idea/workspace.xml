@@ -20,10 +20,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="281c5f14-7669-4862-9d39-2ea535ae98e8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/components/company/show-all-influencer/edit-comission/components/show-influencer-action.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/events/components/event-view-modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/components/event-view-modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/company/show-all-influencer/edit-comission/components/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/company/show-all-influencer/edit-comission/components/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/company/show-all-influencer/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/company/show-all-influencer/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/company/show-all-influencer/show-influencer.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/company/show-all-influencer/show-influencer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/events/events-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/events/events-manager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/sign-up/components/sign-up-form.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/sign-up/components/sign-up-form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/sign-up/sign-up.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/sign-up/sign-up.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/sign-up/validation/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/sign-up/validation/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/influencer/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/influencer/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,18 +72,18 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Tariq ali\Desktop\RS Glow Tech\JusGotPaid\JusGotPaidFrontend\components\util" />
+      <recent name="C:\Users\Tariq ali\Desktop\RS Glow Tech\JusGotPaid\JusGotPaidFrontend\constants" />
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\layouts\secure-template" />
+      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\pages\admin\events" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\events" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\pages\admin\events\[eventId]" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile\edit\components" />
       <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\profile\edit" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Tariq ali\Desktop\RS Glow Tech\JusGotPaid\JusGotPaidFrontend\components\util" />
-      <recent name="C:\Users\Tariq ali\Desktop\RS Glow Tech\JusGotPaid\JusGotPaidFrontend\constants" />
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components\layouts\secure-template" />
-      <recent name="C:\Users\Muqaddas Khalil\Desktop\RS-GlowTech\JusGotPaidFrontend\components" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -98,6 +106,9 @@
       <workItem from="1644750034124" duration="15410000" />
       <workItem from="1644819451942" duration="9277000" />
       <workItem from="1645465374666" duration="8649000" />
+      <workItem from="1645518731704" duration="8963000" />
+      <workItem from="1645604867281" duration="6498000" />
+      <workItem from="1645690625116" duration="4372000" />
     </task>
     <servers />
   </component>
@@ -117,10 +128,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="551" y="275" key="#ESLint" timestamp="1644774001369">
+    <state x="551" y="275" key="#ESLint" timestamp="1645611284667">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="551" y="275" key="#ESLint/0.0.1366.728@0.0.1366.728" timestamp="1644774001369" />
+    <state x="551" y="275" key="#ESLint/0.0.1366.728@0.0.1366.728" timestamp="1645611284667" />
     <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1644822998216">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -141,10 +152,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="390" y="99" width="585" height="530" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1644827887428" />
-    <state x="339" y="162" key="run.anything.popup" timestamp="1645473294691">
+    <state x="339" y="162" key="run.anything.popup" timestamp="1645609279261">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1645473294691" />
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1645609279261" />
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1644826389115">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

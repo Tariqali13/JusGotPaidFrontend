@@ -218,7 +218,7 @@ const SignUpForm = (props: Props) => {
                   <input
                     type="text"
                     value={values.referral_link}
-                    readOnly = {values.referral_link ? true : false}
+                    readOnly={values.referral_link ? true : false}
                     className={`form-control ${fieldValidate(field, form)}`}
                     id="exampleInputReferralLink"
                     placeholder="Enter Referral Link"
@@ -229,7 +229,7 @@ const SignUpForm = (props: Props) => {
                   {fieldValidateBool(field, form) && (
                     <small className="form-text invalid-feedback">
                       {' '}
-                      {errors.last_name}
+                      {errors.referral_link}
                     </small>
                   )}
                 </div>

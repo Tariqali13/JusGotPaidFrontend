@@ -1,16 +1,28 @@
-// @flow
-import React from 'react';
-import SecureTemplate from '@/layout/secure-template';
+import React, { useContext, useState } from 'react';
 import SearchHeader from '@/components/search-header';
-import { useTable } from 'react-table';
-import { useQuery } from 'react-query';
+import { useTable, useSortBy } from 'react-table';
+import { useMutation, useQuery } from 'react-query';
+import { InfluencerAction } from '@/components/company/show-all-influencer/edit-comission/components';
 import { getLocalStorageValues } from '@/constants/local-storage';
 import reactQueryConfig from '@/constants/react-query-config';
 import ProgressLoader from '@/components/loaders/progress-loader';
 import _get from 'lodash/get';
-import { GET_INFLUENCERS_DATA } from './queries';
+import { Message } from '@/components/alert/message';
+import { ConfirmationModal } from '@/components/modal';
+import TemplateContext from '@/layout/secure-template/context';
+import { Input } from 'reactstrap';
+import {
+  DELETE_INFLUENCER,
+  GET_INFLUENCERS_DATA,
+  SUSPEND_INFLUENCER,
+} from './queries';
 
 const columns = [
+  {
+    Header: 'Sr #',
+    id: 'row',
+    accessor: (_row: any, i: number) => i + 1,
+  },
   {
     Header: 'First Name',
     accessor: 'first_name', // accessor is the "key" in the data
@@ -31,13 +43,64 @@ const columns = [
 const ShowInfluencers = () => {
   const { user_id, profile_link } = getLocalStorageValues();
   const isWindow = typeof window !== 'undefined';
+  const { userData } = useContext(TemplateContext);
+  const isAdmin = _get(userData, 'role', 'User') === 'Admin';
   const splitUrl = isWindow && window.location.href.split('/');
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [influencerToDelete, setInfluencerToDelete] = useState({});
+  const toggleDeleteModal = () => setDeleteModal(!deleteModal);
+  const [deleteInfluencer, { isLoading: isLoadingDelete }] = useMutation(
+    DELETE_INFLUENCER,
+  );
+  const [suspendInfluencer, { isLoading: isLoadingSuspend }] = useMutation(
+    SUSPEND_INFLUENCER,
+  );
   const {
     data: influencersData,
+    refetch,
     isLoading: isInfluencersDataLoading,
-  } = useQuery(['INFLUENCERS_DATA', {profile_link, profile_link}], GET_INFLUENCERS_DATA, {
+  } = useQuery(['INFLUENCERS_DATA', { profile_link }], GET_INFLUENCERS_DATA, {
     ...reactQueryConfig,
   });
+  console.log(influencerToDelete, 'influencerToDelete');
+  const handleDelete = id => {
+    setDeleteModal(true);
+    const findInfluencer = _get(influencersData, 'data', []).find(
+      influencer => influencer._id === id,
+    );
+    setInfluencerToDelete(findInfluencer);
+  };
+  const handleConfirmDelete = async () => {
+    toggleDeleteModal();
+    await deleteInfluencer(_get(influencerToDelete, '_id', ''), {
+      onSuccess: async res => {
+        await refetch();
+        Message.success(res);
+      },
+      onError: err => {
+        Message.error(err);
+      },
+    });
+  };
+  const handleSuspend = async (id, status) => {
+    await suspendInfluencer(
+      {
+        id,
+        data: {
+          status: !status,
+        },
+      },
+      {
+        onSuccess: async res => {
+          await refetch();
+          Message.success(res);
+        },
+        onError: error => {
+          Message.error(error);
+        },
+      },
+    );
+  };
   const tableData = _get(influencersData, 'data', []);
   const {
     getTableProps,
@@ -45,9 +108,9 @@ const ShowInfluencers = () => {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data: tableData });
+  } = useTable({ columns, data: tableData }, useSortBy);
   return (
-    <SecureTemplate>
+    <>
       <div id="content">
         <SearchHeader />
         <div className="container-fluid">
@@ -74,10 +137,21 @@ const ShowInfluencers = () => {
                     <thead>
                       {headerGroups.map((headerGroup, index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-                          <th>Sr #</th>
                           {headerGroup.headers.map((column, innerIndex) => (
-                            <th {...column.getHeaderProps()} key={innerIndex}>
+                            <th
+                              {...column.getHeaderProps(
+                                column.getSortByToggleProps(),
+                              )}
+                              key={innerIndex}
+                            >
                               {column.render('Header')}
+                              <span>
+                                {column.isSorted
+                                  ? column.isSortedDesc
+                                    ? ' 🔽'
+                                    : ' 🔼'
+                                  : ' 🔼🔽'}
+                              </span>
                             </th>
                           ))}
                           <th>Actions</th>
@@ -92,7 +166,6 @@ const ShowInfluencers = () => {
                         prepareRow(row);
                         return (
                           <tr {...row.getRowProps()} key={index}>
-                            <td>{index + 1}</td>
                             {row.cells.map((cell, innerIndex) => {
                               return (
                                 <td {...cell.getCellProps()} key={innerIndex}>
@@ -100,22 +173,30 @@ const ShowInfluencers = () => {
                                 </td>
                               );
                             })}
-                            <td>
-                              <button
-                                className="btn btn-primary btn-sm"
-                                onClick={() =>
-                                  window.open(
-                                    `/admin/influencer/edit/${_get(
-                                      row,
-                                      'original._id',
-                                    )}`,
-                                    '_self',
-                                  )
-                                }
-                              >
-                                Edit Commission
-                              </button>
+                            <td className="text-center">
+                              <InfluencerAction
+                                user_id={user_id}
+                                isAdmin={isAdmin}
+                                row={row}
+                                handleDelete={handleDelete}
+                                handleSuspend={handleSuspend}
+                              />
                             </td>
+                            {/* <button */}
+                            {/*  className="btn btn-primary btn-sm" */}
+                            {/*  onClick={() => */}
+                            {/*    window.open( */}
+                            {/*      `/admin/influencer/edit/${_get( */}
+                            {/*        row, */}
+                            {/*        'original._id', */}
+                            {/*      )}`, */}
+                            {/*      '_self', */}
+                            {/*    ) */}
+                            {/*  } */}
+                            {/* > */}
+                            {/*  Edit User */}
+                            {/* </button> */}
+                            {/* </td> */}
                           </tr>
                         );
                       })}
@@ -127,10 +208,32 @@ const ShowInfluencers = () => {
           </div>
         </div>
       </div>
-      {isInfluencersDataLoading && (
-        <ProgressLoader isLoading={isInfluencersDataLoading} />
+      <ConfirmationModal
+        heading="Confirm Delete"
+        modalOpen={deleteModal}
+        toggleModal={toggleDeleteModal}
+        handleCancelButton={toggleDeleteModal}
+        isCancelButton={true}
+        isConfirmButton={true}
+        confirmButtonText="Delete"
+        handleConfirmButton={handleConfirmDelete}
+      >
+        <p>
+          Are you sure you want to delete influencer{' '}
+          <strong>
+            {influencerToDelete?.first_name} {influencerToDelete?.last_name}
+          </strong>
+          ?
+        </p>
+      </ConfirmationModal>
+      {(isInfluencersDataLoading || isLoadingDelete || isLoadingSuspend) && (
+        <ProgressLoader
+          isLoading={
+            isInfluencersDataLoading || isLoadingDelete || isLoadingSuspend
+          }
+        />
       )}
-    </SecureTemplate>
+    </>
   );
 };
 
