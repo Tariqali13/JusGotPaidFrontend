@@ -33,3 +33,5 @@ yarn-error.log*
 .env.production.local
 .idea/codeStyles/Project.xml
 .idea/dbnavigator.xml
+.env
+.idea/workspace.xml
