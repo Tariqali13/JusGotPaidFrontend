@@ -10,7 +10,9 @@ import _get from 'lodash/get';
 import { Message } from '@/components/alert/message';
 import { ConfirmationModal } from '@/components/modal';
 import TemplateContext from '@/layout/secure-template/context';
-import { Input } from 'reactstrap';
+import { FormGroup, Input, Button, Form } from 'reactstrap';
+import Pagination from '@/utils/pagination';
+import AdminPagination from '@/components/pagination';
 import {
   DELETE_INFLUENCER,
   GET_INFLUENCERS_DATA,
@@ -49,20 +51,82 @@ const ShowInfluencers = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [influencerToDelete, setInfluencerToDelete] = useState({});
   const toggleDeleteModal = () => setDeleteModal(!deleteModal);
+  const [isSearched, setIsSearched] = useState(false);
   const [deleteInfluencer, { isLoading: isLoadingDelete }] = useMutation(
     DELETE_INFLUENCER,
   );
   const [suspendInfluencer, { isLoading: isLoadingSuspend }] = useMutation(
     SUSPEND_INFLUENCER,
   );
+  const [userParams, setUserParams] = useState({
+    records_per_page: 5,
+    page_no: 1,
+  });
+  const [paginationData, setPaginationData] = useState({});
+  const [searchName, setSearchName] = useState('');
+  const handleChangeName = e => {
+    setSearchName(e.target.value);
+  };
   const {
     data: influencersData,
     refetch,
+    isError,
     isLoading: isInfluencersDataLoading,
-  } = useQuery(['INFLUENCERS_DATA', { profile_link }], GET_INFLUENCERS_DATA, {
+  } = useQuery(['INFLUENCERS_DATA', userParams], GET_INFLUENCERS_DATA, {
     ...reactQueryConfig,
+    onSuccess: res => {
+      // eslint-disable-next-line no-undef
+      const { result } = Pagination(
+        res.records_per_page,
+        res.total_number_of_users,
+        res.page_no,
+        res.data.length,
+      );
+      return setPaginationData(result);
+    },
+    onError: () => {
+      setPaginationData({});
+    },
   });
-  console.log(influencerToDelete, 'influencerToDelete');
+  const handleSearchName = () => {
+    if (searchName) {
+      setUserParams({
+        ...userParams,
+        name: searchName,
+      });
+      setIsSearched(true);
+    } else {
+      Message.error(null, { message: 'Please enter Name to search!' });
+    }
+  };
+
+  const handleClearSearchName = () => {
+    setUserParams({
+      records_per_page: 5,
+      page_no: userParams.page_no,
+    });
+    setSearchName('');
+    setIsSearched(false);
+  };
+
+  const handleNext = page => {
+    setUserParams({
+      ...userParams,
+      page_no: parseInt(page),
+    });
+  };
+  const handlePrevious = page => {
+    setUserParams({
+      ...userParams,
+      page_no: parseInt(page),
+    });
+  };
+  const handlePageSelect = page => {
+    setUserParams({
+      ...userParams,
+      page_no: page,
+    });
+  };
   const handleDelete = id => {
     setDeleteModal(true);
     const findInfluencer = _get(influencersData, 'data', []).find(
@@ -108,7 +172,10 @@ const ShowInfluencers = () => {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data: tableData }, useSortBy);
+  } = useTable(
+    { columns, data: tableData, autoResetSortBy: false, autoResetPage: false },
+    useSortBy,
+  );
   return (
     <>
       <div id="content">
@@ -130,24 +197,53 @@ const ShowInfluencers = () => {
                   id="dataTable_wrapper"
                   className="dataTables_wrapper dt-bootstrap4"
                 >
+                  <Form inline>
+                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                      <Input
+                        type="text"
+                        name="name"
+                        value={searchName}
+                        onChange={handleChangeName}
+                        onKeyPress={event => {
+                          if (event.key === 'Enter') {
+                            event.preventDefault();
+                            handleSearchName();
+                          }
+                        }}
+                        placeholder="Search by user name"
+                      />
+                    </FormGroup>
+                    <Button color="info" onClick={handleSearchName}>
+                      Search
+                    </Button>
+                    {isSearched && (
+                      <Button
+                        color="primary"
+                        className="ml-2"
+                        onClick={handleClearSearchName}
+                      >
+                        Clear Search
+                      </Button>
+                    )}
+                  </Form>
                   <table
                     {...getTableProps()}
                     className="table table-bordered dataTable"
                   >
                     <thead>
-                      {headerGroups.map((headerGroup, index) => (
+                      {headerGroups?.map((headerGroup, index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={index}>
                           {headerGroup.headers.map((column, innerIndex) => (
                             <th
                               {...column.getHeaderProps(
-                                column.getSortByToggleProps(),
+                                column?.getSortByToggleProps(),
                               )}
                               key={innerIndex}
                             >
                               {column.render('Header')}
                               <span>
-                                {column.isSorted
-                                  ? column.isSortedDesc
+                                {column?.isSorted
+                                  ? column?.isSortedDesc
                                     ? ' 🔽'
                                     : ' 🔼'
                                   : ' 🔼🔽'}
@@ -162,7 +258,7 @@ const ShowInfluencers = () => {
                       {...getTableBodyProps()}
                       style={{ height: '50px', overflowY: 'scroll' }}
                     >
-                      {rows.map((row, index) => {
+                      {rows?.map((row, index) => {
                         prepareRow(row);
                         return (
                           <tr {...row.getRowProps()} key={index}>
@@ -202,6 +298,16 @@ const ShowInfluencers = () => {
                       })}
                     </tbody>
                   </table>
+                  {(_get(influencersData, 'data', []).length === 0 ||
+                    isError) && <h3 className="text-center">No Users Found</h3>}
+                  {_get(influencersData, 'data', []).length > 0 && !isError && (
+                    <AdminPagination
+                      paginationData={paginationData}
+                      handlePageSelect={handlePageSelect}
+                      handlePrevious={handlePrevious}
+                      handleNext={handleNext}
+                    />
+                  )}
                 </div>
               </div>
             </div>

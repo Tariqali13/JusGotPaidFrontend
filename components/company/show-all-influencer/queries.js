@@ -5,7 +5,7 @@ import { baseURL } from '@/constants/index';
 
 export const GET_INFLUENCERS_DATA = async (key, e) => {
   // const res = await axios.get(baseURL + `/v1/register/get-referral-users/${e.profile_link}`);
-  const res = await axios.get(`${baseURL}/v1/register/`);
+  const res = await axios.get(`${baseURL}/v1/register`, { params: e });
   return res.data;
 };
 
