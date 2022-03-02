@@ -94,7 +94,7 @@ const Events = (props: Props) => {
         </RowWrapper>
         <Row>
           {_get(eventsData, 'data', []).map((event, i) => (
-            <Col md={3} key={i}>
+            <Col md={3} key={i} className="d-flex">
               <div className="card event-card">
                 <img
                   className="card-img-top w-100"

@@ -15,30 +15,36 @@ import { FORGET_PASSWORD } from './queries';
 const ForgetPassword = () => {
   const [forgetPassword, { isLoading }] = useMutation(FORGET_PASSWORD);
   return (
-    <MarketingTemplate isColorNav={true}>
-      <Formik
-        initialValues={{
-          email: '',
-        }}
-        validationSchema={validateForgetPassword}
-        onSubmit={async (values, actions) => {
-          await forgetPassword(values, {
-            onSuccess: async res => {
-              Message.success(res);
-              Router.push('/login', '/login', {
-                shallow: true,
-              });
-            },
-            onError: e => {
-              Message.error(e);
-            },
-          });
-        }}
-      >
-        {formikProps => {
-          return <ForgetPasswordForm {...formikProps} />;
-        }}
-      </Formik>
+    <MarketingTemplate isColorNav={false}>
+      <div className="container-fluid p-5 dynamic-form">
+        <div className="card my-3 w-50 mx-auto">
+          <div className="card-body">
+            <Formik
+              initialValues={{
+                email: '',
+              }}
+              validationSchema={validateForgetPassword}
+              onSubmit={async (values, actions) => {
+                await forgetPassword(values, {
+                  onSuccess: async res => {
+                    Message.success(res);
+                    Router.push('/login', '/login', {
+                      shallow: true,
+                    });
+                  },
+                  onError: e => {
+                    Message.error(e);
+                  },
+                });
+              }}
+            >
+              {formikProps => {
+                return <ForgetPasswordForm {...formikProps} />;
+              }}
+            </Formik>
+          </div>
+        </div>
+      </div>
       {isLoading && <ProgressLoader isLoading={isLoading} />}
     </MarketingTemplate>
   );

@@ -11,6 +11,7 @@ import { Message } from '@/components/alert/message';
 import _omit from 'lodash.omit';
 import { getLocalStorageValues } from '@/constants/local-storage';
 import ProgressLoader from '@/components/loaders/progress-loader';
+import ReactOwlCarousel from '@/components/react-owl-carousel';
 import { GET_EVENT_DATA, CREATE_TRANSACTION } from './queries';
 import { EventDetailForm } from './components';
 import { validateBuyEventForm } from './validation';
@@ -42,38 +43,49 @@ const EventDetail = () => {
     return result;
   };
   return (
-    <MarketingTemplate isColorNav={true} showMenu={false}>
-      <section className="page-section" id="contact">
+    <MarketingTemplate isColorNav={false} showMenu={false}>
+      <section className="my-3" id="contact">
         <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-8 text-center">
-              <h2 className="mt-0">Event Detail</h2>
-              <hr className="divider my-4" />
-              <p className="text-muted mb-5">Detail about event and purchase</p>
+          <div className="container">
+            {_get(eventData, 'data.cover_image_id.file_url', '') && (
+              <img
+                alt="cover-image"
+                className="w-100"
+                src={_get(eventData, 'data.cover_image_id.file_url', '')}
+              />
+            )}
+            <div className="row justify-content-center">
+              <div className="col-lg-8 text-center">
+                <h2 className="mt-0">Event Detail</h2>
+                <hr className="divider my-4" />
+                <p className="text-muted mb-5">
+                  Detail about event and purchase
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="row justify-content-center">
-            <div className="card" style={{ width: '18rem' }}>
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item">
-                  Name: {_get(eventData, 'data.event_name')}
-                </li>
-                <li className="list-group-item">
-                  Type: {_get(eventData, 'data.event_type')}
-                </li>
-                <li className="list-group-item">
-                  Date: {_get(eventData, 'data.event_date')}
-                </li>
-                <li className="list-group-item">
-                  Location: {_get(eventData, 'data.event_location')}
-                </li>
-                <li className="list-group-item">
-                  No of Tickets Left: {ticketsToBuy}
-                </li>
-                <li className="list-group-item">
-                  Price per ticket: ${_get(eventData, 'data.ticket_price', 0)}
-                </li>
-              </ul>
+            <div className="row justify-content-center">
+              <div className="card" style={{ width: '18rem' }}>
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item">
+                    Name: {_get(eventData, 'data.event_name')}
+                  </li>
+                  <li className="list-group-item">
+                    Type: {_get(eventData, 'data.event_type')}
+                  </li>
+                  <li className="list-group-item">
+                    Date: {_get(eventData, 'data.event_date')}
+                  </li>
+                  <li className="list-group-item">
+                    Location: {_get(eventData, 'data.event_location')}
+                  </li>
+                  <li className="list-group-item">
+                    No of Tickets Left: {ticketsToBuy}
+                  </li>
+                  <li className="list-group-item">
+                    Price per ticket: ${_get(eventData, 'data.ticket_price', 0)}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           <Formik
@@ -125,6 +137,21 @@ const EventDetail = () => {
               );
             }}
           </Formik>
+        </div>
+        <div className="my-5">
+          {_get(eventData, 'data.images', []).length > 0 && (
+            <ReactOwlCarousel>
+              {_get(eventData, 'data.images', []).map((im, i) => (
+                <div className="item" key={i}>
+                  <img
+                    alt="cover-image"
+                    className="w-100"
+                    src={_get(im, 'file_url', '')}
+                  />
+                </div>
+              ))}
+            </ReactOwlCarousel>
+          )}
         </div>
       </section>
       {(isEventDataLoading || isLoading) && (

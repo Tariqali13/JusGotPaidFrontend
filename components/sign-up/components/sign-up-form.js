@@ -30,7 +30,7 @@ const SignUpForm = (props: Props) => {
   } = props;
 
   return (
-    <section className="page-section" id="contact">
+    <section className="" id="contact">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-8 text-center">

@@ -91,9 +91,7 @@ const EventEdit = () => {
                       onSuccess: async res => {
                         Message.success(res);
                         actions.resetForm();
-                        await Router.push('/admin/events', '/admin/events', {
-                          shallow: true,
-                        });
+                        Router.back();
                       },
                       onError: e => {
                         Message.error(e);

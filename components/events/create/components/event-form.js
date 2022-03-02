@@ -303,7 +303,7 @@ const EventForm = (props: Props) => {
         </button>
         <div className="row w-100">
           {_get(values, 'images', []).map((image, i) => (
-            <div className="col-4" key={i}>
+            <div className="col-4 my-3" key={i}>
               <Badge
                 bg="danger"
                 className="badge-circle bg-danger position-absolute image-remove-icon

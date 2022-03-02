@@ -26,7 +26,7 @@ const LoginForm = (props: Props) => {
     handleSubmit,
   } = props;
   return (
-    <section className="page-section" id="contact">
+    <section className="" id="contact">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-8 text-center">
@@ -89,7 +89,7 @@ const LoginForm = (props: Props) => {
               );
             }}
           </Field>
-          
+
           <div className="row">
             <div className="col-xl-12">
             <button
@@ -115,7 +115,7 @@ const LoginForm = (props: Props) => {
               </Link>
             </div>
           </div>
-          
+
         </form>
       </div>
     </section>

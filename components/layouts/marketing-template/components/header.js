@@ -18,6 +18,7 @@ const Header = (props: Props) => {
     profile_link,
   } = getLocalStorageValues();
   const router = useRouter();
+  const { pathname } = router;
   const { eventId, influencerId } = router.query;
   const isWindow = typeof window !== 'undefined';
   const [mobileView, setMobileView] = useState(false);
@@ -49,7 +50,7 @@ const Header = (props: Props) => {
   return (
     <nav
       className={`navbar navbar-expand-lg
-         navbar-light
+         navbar-dark bg-dark
           ${mobileView && 'navbar-scrolled'}
            ${isColorNav && 'nav-color-other'}`}
       id="mainNav"
@@ -57,7 +58,7 @@ const Header = (props: Props) => {
       <div className="container">
         <Link href="/" as="/">
           <a className="navbar-brand js-scroll-trigger">
-            <img src="img/Logo.png" width={140}/>
+            <img src="/img/Logo.png" width={140} />
           </a>
         </Link>
         <button
@@ -83,13 +84,14 @@ const Header = (props: Props) => {
           <ul className="navbar-nav ml-auto my-2 my-lg-0">
             {showMenu && (
               <React.Fragment>
-                      <li className="nav-item">
-                        <a className="nav-link js-scroll-trigger" href="/">
-                          Home
-                        </a>
-                      </li>
-                {router.pathname.includes('login') === false &&
-                  router.pathname.includes('register') === false && router.pathname.includes('verify-code') === false && (
+                <li className="nav-item">
+                  <a className={`nav-link js-scroll-trigger ${pathname === '/' && 'active-nav'}`} href="/">
+                    Home
+                  </a>
+                </li>
+                {pathname.includes('login') === false &&
+                  pathname.includes('register') === false &&
+                  pathname.includes('verify-code') === false && (
                     <React.Fragment>
                       <li className="nav-item">
                         <a className="nav-link js-scroll-trigger" href="#about">
@@ -125,14 +127,14 @@ const Header = (props: Props) => {
                 {!user_auth_token && (
                   <li className="nav-item">
                     <Link href="/login" as="/login">
-                      <a className="nav-link js-scroll-trigger">Login</a>
+                      <a className={`nav-link js-scroll-trigger ${pathname === '/login' && 'active-nav'}`}>Login</a>
                     </Link>
                   </li>
                 )}
                 {!user_auth_token && (
                   <li className="nav-item">
                     <Link href="/register" as="/register">
-                      <a className="nav-link js-scroll-trigger">Sign up</a>
+                      <a className={`nav-link js-scroll-trigger ${pathname === '/register' && 'active-nav'}`}>Sign up</a>
                     </Link>
                   </li>
                 )}
@@ -264,7 +266,7 @@ const Header = (props: Props) => {
               <li className="nav-item" style={{ cursor: 'pointer' }}>
                 <a
                   className="nav-link js-scroll-trigger"
-                  style={{ color: 'black' }}
+                  // style={{ color: 'black' }}
                   onClick={handleLogout}
                 >
                   Log out
@@ -277,7 +279,7 @@ const Header = (props: Props) => {
                 <Link href="/admin/dashboard" as="/admin/dashboard">
                   <a
                     className="nav-link js-scroll-trigger"
-                    style={{ color: 'black' }}
+                    // style={{ color: 'black' }}
                   >
                     Dashboard
                   </a>
