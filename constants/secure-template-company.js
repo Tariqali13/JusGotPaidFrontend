@@ -3,7 +3,7 @@ export const companySideNav = [
     href: '/admin/dashboard',
     as: '/admin/dashboard',
     name: 'Dashboard',
-    icon: 'fa-tachometer-alt'
+    icon: 'fa-tachometer-alt',
   },
   {
     href: '/admin/events',
@@ -15,13 +15,13 @@ export const companySideNav = [
     href: '/admin/events/passed-events',
     as: '/admin/events/passed-events',
     name: 'Past Events',
-    icon: 'fa-calendar',
+    icon: 'fa-calendar-minus',
   },
   {
     href: '/admin/events/hidden-events',
     as: '/admin/events/hidden-events',
     name: 'Hidden Events',
-    icon: 'fa-calendar',
+    icon: 'fa-calendar-plus',
   },
   {
     href: '/admin/influencer',
@@ -34,5 +34,17 @@ export const companySideNav = [
     as: '/admin/referral-users',
     name: 'Referral Users',
     icon: 'fa-user-times',
+  },
+  {
+    href: '/admin/referral-paid',
+    as: '/admin/referral-paid',
+    name: 'Referral Fee Paid',
+    icon: 'fa-money-bill',
+  },
+  {
+    href: '/admin/referral-due',
+    as: '/admin/referral-due',
+    name: 'Referral Fee Due',
+    icon: 'fa-money-bill',
   },
 ];

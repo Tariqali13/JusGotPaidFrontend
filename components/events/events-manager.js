@@ -14,6 +14,7 @@ import TemplateContext from '@/layout/secure-template/context';
 import Pagination from '@/utils/pagination';
 import AdminPagination from '@/components/pagination';
 import { Input } from 'reactstrap';
+import { priceCalculator } from '@/utils/display-util';
 import { EventsActions, EventViewModal } from './components';
 import {
   GET_EVENTS_DATA,
@@ -42,7 +43,9 @@ const columns = [
   },
   {
     Header: 'Ticket Price',
-    accessor: 'ticket_price',
+    accessor: (_row: any, i: number) => (
+      <span>{priceCalculator(_row.ticket_price, '$')}</span>
+    ),
   },
   {
     Header: 'Tickets Sold',
@@ -235,148 +238,143 @@ const EventsManager = (props: Props) => {
   };
   return (
     <>
-      <div id="content">
-        <SearchHeader />
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-6 col-sm-12">
-              <h1 className="h3 mb-2 text-gray-800">
-                {passedEvents && 'Passed Events'}
-                {hiddenEvents && 'Hidden Events'}
-                {!passedEvents && !hiddenEvents && 'Current Events'}
-              </h1>
-              <p className="mb-4">List of all the events</p>
-            </div>
-            {isAdmin && !hiddenEvents && (
-              <div className="col-md-6 col-sm-12">
-                <button
-                  className="btn btn-primary"
-                  style={{ float: 'right' }}
-                  onClick={() =>
-                    Router.push(
-                      '/admin/events/create',
-                      '/admin/events/create',
-                      {
-                        shallow: true,
-                      },
-                    )
-                  }
-                >
-                  {' '}
-                  Create New Event{' '}
-                </button>
-              </div>
-            )}
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6 col-sm-12">
+            <h1 className="h3 mb-2 text-gray-800">
+              {passedEvents && 'Passed Events'}
+              {hiddenEvents && 'Hidden Events'}
+              {!passedEvents && !hiddenEvents && 'Current Events'}
+            </h1>
+            <p className="mb-4">List of all the events</p>
           </div>
-          <div className="card shadow mb-4">
-            <div className="card-body">
-              <div className="table-responsive">
-                <div
-                  id="dataTable_wrapper"
-                  className="dataTables_wrapper dt-bootstrap4"
+          {isAdmin && !hiddenEvents && (
+            <div className="col-md-6 col-sm-12">
+              <button
+                className="btn btn-primary"
+                style={{ float: 'right' }}
+                onClick={() =>
+                  Router.push('/admin/events/create', '/admin/events/create', {
+                    shallow: true,
+                  })
+                }
+              >
+                {' '}
+                Create New Event{' '}
+              </button>
+            </div>
+          )}
+        </div>
+        <div
+          className="card shadow mb-4"
+          style={{ maxHeight: '66vh', overflow: 'auto' }}
+        >
+          <div className="card-body">
+            <div className="table-responsive">
+              <div
+                id="dataTable_wrapper"
+                className="dataTables_wrapper dt-bootstrap4"
+              >
+                <table
+                  {...getTableProps()}
+                  className="table table-bordered dataTable"
                 >
-                  <table
-                    {...getTableProps()}
-                    className="table table-bordered dataTable"
+                  <thead>
+                    {headerGroups.map((headerGroup, index) => (
+                      <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                        {headerGroup.headers.map((column, innerIndex) => (
+                          <th {...column.getHeaderProps()} key={innerIndex}>
+                            {column.render('Header')}
+                          </th>
+                        ))}
+                        <th>Total Sales</th>
+                        <th>Available Tickets</th>
+                        {isAdmin && <th>Hidden</th>}
+                        <th>Actions</th>
+                      </tr>
+                    ))}
+                  </thead>
+                  <tbody
+                    {...getTableBodyProps()}
+                    style={{ height: '50px', overflowY: 'scroll' }}
                   >
-                    <thead>
-                      {headerGroups.map((headerGroup, index) => (
-                        <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-                          {headerGroup.headers.map((column, innerIndex) => (
-                            <th {...column.getHeaderProps()} key={innerIndex}>
-                              {column.render('Header')}
-                            </th>
-                          ))}
-                          <th>Total Sales</th>
-                          <th>Available Tickets</th>
-                          {isAdmin && <th>Hidden</th>}
-                          <th>Actions</th>
-                        </tr>
-                      ))}
-                    </thead>
-                    <tbody
-                      {...getTableBodyProps()}
-                      style={{ height: '50px', overflowY: 'scroll' }}
-                    >
-                      {rows.map((row, index) => {
-                        prepareRow(row);
-                        return (
-                          <tr {...row.getRowProps()} key={index}>
-                            {row.cells.map((cell, innerIndex) => {
-                              return (
-                                <td {...cell.getCellProps()} key={innerIndex}>
-                                  {cell.render('Cell')}
-                                </td>
-                              );
-                            })}
-                            <td>
-                              {_get(row, 'original.ticket_price', 0) *
-                                _get(row, 'original.no_of_tickets_sold', 0)}
-                            </td>
-                            <td>
-                              {_get(row, 'original.no_of_tickets') -
-                                _get(row, 'original.no_of_tickets_sold')}
-                            </td>
-                            {isAdmin && (
-                              <td className="text-center">
-                                <Input
-                                  style={{ position: 'relative' }}
-                                  type="checkbox"
-                                  checked={_get(
-                                    row,
-                                    'original.is_hidden',
-                                    false,
-                                  )}
-                                  onChange={() =>
-                                    handleHidden(
-                                      _get(row, 'original._id'),
-                                      _get(row, 'original.is_hidden', false),
-                                    )
-                                  }
-                                />
+                    {rows.map((row, index) => {
+                      prepareRow(row);
+                      return (
+                        <tr {...row.getRowProps()} key={index}>
+                          {row.cells.map((cell, innerIndex) => {
+                            return (
+                              <td {...cell.getCellProps()} key={innerIndex}>
+                                {cell.render('Cell')}
                               </td>
+                            );
+                          })}
+                          <td>
+                            {priceCalculator(
+                              _get(row, 'original.ticket_price', 0) *
+                                _get(row, 'original.no_of_tickets_sold', 0),
+                              '$',
                             )}
+                          </td>
+                          <td>
+                            {_get(row, 'original.no_of_tickets') -
+                              _get(row, 'original.no_of_tickets_sold')}
+                          </td>
+                          {isAdmin && (
                             <td className="text-center">
-                              <EventsActions
-                                user_id={user_id}
-                                isAdmin={isAdmin}
-                                row={row}
-                                handleDelete={handleDelete}
-                                handleViewEvent={handleViewEvent}
+                              <Input
+                                style={{ position: 'relative' }}
+                                type="checkbox"
+                                checked={_get(row, 'original.is_hidden', false)}
+                                onChange={() =>
+                                  handleHidden(
+                                    _get(row, 'original._id'),
+                                    _get(row, 'original.is_hidden', false),
+                                  )
+                                }
                               />
-                              {/* <CopyToClipboard */}
-                              {/*  text={`${window.location.protocol}://${ */}
-                              {/*    splitUrl[2] */}
-                              {/*  }/influencer/${user_id}/event/${_get( */}
-                              {/*    row, */}
-                              {/*    'original._id', */}
-                              {/*  )}`} */}
-                              {/*  onCopy={() => */}
-                              {/*    Message.success(null, { */}
-                              {/*      message: 'Link Copied', */}
-                              {/*    }) */}
-                              {/*  } */}
-                              {/* > */}
-                              {/*  <i className="fa fa-link cursor-pointer icon-hover"></i> */}
-                              {/* </CopyToClipboard> */}
                             </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                  {(_get(eventsData, 'data', []).length === 0 || isError) && (
-                    <h3 className="text-center">No Events Found</h3>
-                  )}
-                  {_get(eventsData, 'data', []).length > 0 && !isError && (
-                    <AdminPagination
-                      paginationData={paginationData}
-                      handlePageSelect={handlePageSelect}
-                      handlePrevious={handlePrevious}
-                      handleNext={handleNext}
-                    />
-                  )}
-                </div>
+                          )}
+                          <td className="text-center">
+                            <EventsActions
+                              user_id={user_id}
+                              isAdmin={isAdmin}
+                              row={row}
+                              handleDelete={handleDelete}
+                              handleViewEvent={handleViewEvent}
+                            />
+                            {/* <CopyToClipboard */}
+                            {/*  text={`${window.location.protocol}://${ */}
+                            {/*    splitUrl[2] */}
+                            {/*  }/influencer/${user_id}/event/${_get( */}
+                            {/*    row, */}
+                            {/*    'original._id', */}
+                            {/*  )}`} */}
+                            {/*  onCopy={() => */}
+                            {/*    Message.success(null, { */}
+                            {/*      message: 'Link Copied', */}
+                            {/*    }) */}
+                            {/*  } */}
+                            {/* > */}
+                            {/*  <i className="fa fa-link cursor-pointer icon-hover"></i> */}
+                            {/* </CopyToClipboard> */}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+                {(_get(eventsData, 'data', []).length === 0 || isError) && (
+                  <h3 className="text-center">No Events Found</h3>
+                )}
+                {_get(eventsData, 'data', []).length > 0 && !isError && (
+                  <AdminPagination
+                    paginationData={paginationData}
+                    handlePageSelect={handlePageSelect}
+                    handlePrevious={handlePrevious}
+                    handleNext={handleNext}
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -37,13 +37,7 @@ const Header = (props: Props) => {
     }
   }, []);
   const handleLogout = () => {
-    localStorage.removeItem('user_phone_number');
-    localStorage.removeItem('user_is_verified');
-    localStorage.removeItem('user_email');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('user_role');
-    localStorage.removeItem('user_auth_token');
-    localStorage.removeItem('profile_link');
+    localStorage.clear();
     Router.push('/', '/');
   };
 
@@ -85,7 +79,11 @@ const Header = (props: Props) => {
             {showMenu && (
               <React.Fragment>
                 <li className="nav-item">
-                  <a className={`nav-link js-scroll-trigger ${pathname === '/' && 'active-nav'}`} href="/">
+                  <a
+                    className={`nav-link js-scroll-trigger ${pathname === '/' &&
+                      'active-nav'}`}
+                    href="/"
+                  >
                     Home
                   </a>
                 </li>
@@ -127,14 +125,30 @@ const Header = (props: Props) => {
                 {!user_auth_token && (
                   <li className="nav-item">
                     <Link href="/login" as="/login">
-                      <a className={`nav-link js-scroll-trigger ${pathname === '/login' && 'active-nav'}`}>Login</a>
+                      <a
+                        className={`nav-link js-scroll-trigger ${pathname ===
+                          '/login' && 'active-nav'}`}
+                        onClick={() => {
+                          localStorage.setItem('flow', 'New');
+                        }}
+                      >
+                        Login
+                      </a>
                     </Link>
                   </li>
                 )}
                 {!user_auth_token && (
                   <li className="nav-item">
                     <Link href="/register" as="/register">
-                      <a className={`nav-link js-scroll-trigger ${pathname === '/register' && 'active-nav'}`}>Sign up</a>
+                      <a
+                        className={`nav-link js-scroll-trigger ${pathname ===
+                          '/register' && 'active-nav'}`}
+                        onClick={() => {
+                          localStorage.setItem('flow', 'New');
+                        }}
+                      >
+                        Sign up
+                      </a>
                     </Link>
                   </li>
                 )}

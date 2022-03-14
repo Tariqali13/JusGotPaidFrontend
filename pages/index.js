@@ -10,7 +10,7 @@ const Home = props => {
 export async function getServerSideProps() {
   const eventRes = await http_req(
     // eslint-disable-next-line max-len
-    `${baseURL}/v1/event?page_no=1&records_per_page=8&passed_events=false`,
+    `${baseURL}/v1/event?page_no=1&records_per_page=8&events_passed=false&all_events=false`,
     'get',
   );
   const eventsResp = eventRes;

@@ -156,6 +156,7 @@ const EventDetailForm = (props: Props) => {
                 className="btn btn-primary"
                 onClick={e => {
                   e.preventDefault();
+                  localStorage.setItem('flow', 'buy');
                   localStorage.setItem('event_id', eventId);
                   localStorage.setItem('influencer_id', influencerId);
                   Router.push('/register', '/register');
@@ -169,6 +170,7 @@ const EventDetailForm = (props: Props) => {
                 className="btn btn-primary"
                 onClick={e => {
                   e.preventDefault();
+                  localStorage.setItem('flow', 'buy');
                   localStorage.setItem('event_id', eventId);
                   localStorage.setItem('influencer_id', influencerId);
                   Router.push('/login', '/login');

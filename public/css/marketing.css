@@ -10164,9 +10164,7 @@ header.masthead h1 {
 .react-tel-input .is-invalid {
   border: 1px solid red !important;
 }
-.Toastify__toast--success {
-  background: sandybrown !important;
-}
+
 .h_iframe iframe{
   width:100%;
   height: 240px;
@@ -10221,4 +10219,11 @@ header.masthead h1 {
   .dynamic-form {
     padding: 1rem !important;
   }
+}
+
+.Toastify__toast--success {
+  background: #000000 !important;
+}
+.Toastify__progress-bar {
+  background: rgb(238,0,51) !important;
 }

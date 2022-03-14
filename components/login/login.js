@@ -15,6 +15,7 @@ import { LOGIN_USER } from './queries';
 const Login = () => {
   const { event_id, influencer_id } = getLocalStorageValues();
   const [loginUser, { isLoading }] = useMutation(LOGIN_USER);
+  const isBuyFlow = localStorage.getItem('flow') === 'buy';
   return (
     <MarketingTemplate isColorNav={false}>
       <div className="container-fluid p-5 dynamic-form">
@@ -59,12 +60,14 @@ const Login = () => {
                       _get(res, 'data._doc.profile_link'),
                     );
                     actions.resetForm();
-                    if (_get(res, 'data._doc.role')) {
+                    if (_get(res, 'data._doc.role') && !isBuyFlow) {
                       Router.push('/admin/dashboard', '/admin/dashboard', {
                         shallow: true,
                       });
                     }
-
+                    if (_get(res, 'data._doc.role') && isBuyFlow) {
+                      Router.back();
+                    }
                     // else if (!event_id && !influencer_id) {
                     //   Router.push('/', '/', {
                     //     shallow: true,

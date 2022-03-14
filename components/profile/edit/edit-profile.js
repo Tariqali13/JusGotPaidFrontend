@@ -1,13 +1,11 @@
 import React from 'react';
-import SearchHeader from '@/components/search-header';
 import Router from 'next/router';
 import { Tabs, Tab } from 'react-bootstrap';
 import { UpdatePassword, Profile } from '@/components/profile/edit/components';
 
 const EditProfile = () => {
   return (
-    <div id="content">
-      <SearchHeader />
+    <>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6 col-sm-12">
@@ -37,7 +35,7 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default EditProfile;

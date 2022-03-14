@@ -10,6 +10,7 @@ import Link from 'next/link';
 
 import AdminPagination from '@/components/pagination';
 import ProgressLoader from '@/components/loaders/progress-loader';
+import { priceCalculator } from '@/utils/display-util';
 import {
   Wrapper,
   RowWrapper,
@@ -31,6 +32,7 @@ const Events = (props: Props) => {
     records_per_page: 8,
     page_no: 1,
     events_passed: false,
+    all_events: false,
   });
   const [paginationData, setPaginationData] = useState({});
   const { data: eventsData, isLoading: isEventsDataLoading } = useQuery(
@@ -115,19 +117,24 @@ const Events = (props: Props) => {
                   </p>
                   <p>
                     <Label>Event Date:</Label>{' '}
-                    <LabelValue>21/1/2022</LabelValue>
+                    <LabelValue>{_get(event, 'event_date', '')}</LabelValue>
                   </p>
                   <p>
                     <Label>Event Location:</Label>
-                    <LabelValue>Lahore</LabelValue>
+                    <LabelValue>{_get(event, 'event_location', '')}</LabelValue>
                   </p>
                   <p>
                     <Label>Available Tickets:</Label>
-                    <LabelValue>100</LabelValue>
+                    <LabelValue>
+                      {_get(event, 'no_of_tickets', 0) -
+                        _get(event, 'no_of_tickets_sold', 0)}
+                    </LabelValue>
                   </p>
                   <p>
                     <Label>Ticket Price:</Label>
-                    <LabelValue>$ 100</LabelValue>
+                    <LabelValue>
+                      {priceCalculator(_get(event, 'ticket_price', 0), '$')}
+                    </LabelValue>
                   </p>
                   <Link
                     href={`/influencer/${event.influencer_id}/event/${event._id}`}

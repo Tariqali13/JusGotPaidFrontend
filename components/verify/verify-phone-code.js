@@ -18,7 +18,6 @@ const VerifyPhoneCode = () => {
     user_is_verified,
   } = getLocalStorageValues();
   const [verifySmsCode, { isLoading }] = useMutation(VERIFY_SMS_CODE);
-
   useEffect(() => {
     if (!user_is_verified) {
       Router.push('/', '/');
@@ -42,7 +41,7 @@ const VerifyPhoneCode = () => {
                   onSuccess: async res => {
                     Message.success(res);
                     actions.resetForm();
-                    Router.push('/', '/', { shallow: true });
+                    Router.push('/login', '/login', { shallow: true });
                   },
                   onError: e => {
                     Message.error(e);

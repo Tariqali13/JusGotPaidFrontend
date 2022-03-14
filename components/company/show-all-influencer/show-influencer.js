@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import SearchHeader from '@/components/search-header';
 import { useTable, useSortBy } from 'react-table';
 import { useMutation, useQuery } from 'react-query';
 import { InfluencerAction } from '@/components/company/show-all-influencer/edit-comission/components';
@@ -178,137 +177,134 @@ const ShowInfluencers = () => {
   );
   return (
     <>
-      <div id="content">
-        <SearchHeader />
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-6 col-sm-12">
-              <h1 className="h3 mb-2 text-gray-800">Users</h1>
-              <p className="mb-4">List of all user</p>
-            </div>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6 col-sm-12">
+            <h1 className="h3 mb-2 text-gray-800">Users</h1>
+            <p className="mb-4">List of all user</p>
           </div>
-          <div
-            className="card shadow mb-4"
-            style={{ height: '62vh', overflow: 'auto' }}
-          >
-            <div className="card-body">
-              <div className="table-responsive">
-                <div
-                  id="dataTable_wrapper"
-                  className="dataTables_wrapper dt-bootstrap4"
-                >
-                  <Form inline>
-                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                      <Input
-                        type="text"
-                        name="name"
-                        value={searchName}
-                        onChange={handleChangeName}
-                        onKeyPress={event => {
-                          if (event.key === 'Enter') {
-                            event.preventDefault();
-                            handleSearchName();
-                          }
-                        }}
-                        placeholder="Search by user name"
-                      />
-                    </FormGroup>
-                    <Button color="info" onClick={handleSearchName}>
-                      Search
-                    </Button>
-                    {isSearched && (
-                      <Button
-                        color="primary"
-                        className="ml-2"
-                        onClick={handleClearSearchName}
-                      >
-                        Clear Search
-                      </Button>
-                    )}
-                  </Form>
-                  <table
-                    {...getTableProps()}
-                    className="table table-bordered dataTable"
-                  >
-                    <thead>
-                      {headerGroups?.map((headerGroup, index) => (
-                        <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-                          {headerGroup.headers.map((column, innerIndex) => (
-                            <th
-                              {...column.getHeaderProps(
-                                column?.getSortByToggleProps(),
-                              )}
-                              key={innerIndex}
-                            >
-                              {column.render('Header')}
-                              <span>
-                                {column?.isSorted
-                                  ? column?.isSortedDesc
-                                    ? ' 🔽'
-                                    : ' 🔼'
-                                  : ' 🔼🔽'}
-                              </span>
-                            </th>
-                          ))}
-                          <th>Actions</th>
-                        </tr>
-                      ))}
-                    </thead>
-                    <tbody
-                      {...getTableBodyProps()}
-                      style={{ height: '50px', overflowY: 'scroll' }}
-                    >
-                      {rows?.map((row, index) => {
-                        prepareRow(row);
-                        return (
-                          <tr {...row.getRowProps()} key={index}>
-                            {row.cells.map((cell, innerIndex) => {
-                              return (
-                                <td {...cell.getCellProps()} key={innerIndex}>
-                                  {cell.render('Cell')}
-                                </td>
-                              );
-                            })}
-                            <td className="text-center">
-                              <InfluencerAction
-                                user_id={user_id}
-                                isAdmin={isAdmin}
-                                row={row}
-                                handleDelete={handleDelete}
-                                handleSuspend={handleSuspend}
-                              />
-                            </td>
-                            {/* <button */}
-                            {/*  className="btn btn-primary btn-sm" */}
-                            {/*  onClick={() => */}
-                            {/*    window.open( */}
-                            {/*      `/admin/influencer/edit/${_get( */}
-                            {/*        row, */}
-                            {/*        'original._id', */}
-                            {/*      )}`, */}
-                            {/*      '_self', */}
-                            {/*    ) */}
-                            {/*  } */}
-                            {/* > */}
-                            {/*  Edit User */}
-                            {/* </button> */}
-                            {/* </td> */}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                  {(_get(influencersData, 'data', []).length === 0 ||
-                    isError) && <h3 className="text-center">No Users Found</h3>}
-                  {_get(influencersData, 'data', []).length > 0 && !isError && (
-                    <AdminPagination
-                      paginationData={paginationData}
-                      handlePageSelect={handlePageSelect}
-                      handlePrevious={handlePrevious}
-                      handleNext={handleNext}
+        </div>
+        <div
+          className="card shadow mb-4"
+          style={{ maxHeight: '66vh', overflow: 'auto' }}
+        >
+          <div className="card-body">
+            <div className="table-responsive">
+              <div
+                id="dataTable_wrapper"
+                className="dataTables_wrapper dt-bootstrap4"
+              >
+                <Form inline>
+                  <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                    <Input
+                      type="text"
+                      name="name"
+                      value={searchName}
+                      onChange={handleChangeName}
+                      onKeyPress={event => {
+                        if (event.key === 'Enter') {
+                          event.preventDefault();
+                          handleSearchName();
+                        }
+                      }}
+                      placeholder="Search by user name"
                     />
+                  </FormGroup>
+                  <Button color="info" onClick={handleSearchName}>
+                    Search
+                  </Button>
+                  {isSearched && (
+                    <Button
+                      color="primary"
+                      className="ml-2"
+                      onClick={handleClearSearchName}
+                    >
+                      Clear Search
+                    </Button>
                   )}
-                </div>
+                </Form>
+                <table
+                  {...getTableProps()}
+                  className="table table-bordered dataTable"
+                >
+                  <thead>
+                    {headerGroups?.map((headerGroup, index) => (
+                      <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                        {headerGroup.headers.map((column, innerIndex) => (
+                          <th
+                            {...column.getHeaderProps(
+                              column?.getSortByToggleProps(),
+                            )}
+                            key={innerIndex}
+                          >
+                            {column.render('Header')}
+                            <span>
+                              {column?.isSorted
+                                ? column?.isSortedDesc
+                                  ? ' 🔽'
+                                  : ' 🔼'
+                                : ' 🔼🔽'}
+                            </span>
+                          </th>
+                        ))}
+                        <th>Actions</th>
+                      </tr>
+                    ))}
+                  </thead>
+                  <tbody
+                    {...getTableBodyProps()}
+                    style={{ height: '50px', overflowY: 'scroll' }}
+                  >
+                    {rows?.map((row, index) => {
+                      prepareRow(row);
+                      return (
+                        <tr {...row.getRowProps()} key={index}>
+                          {row.cells.map((cell, innerIndex) => {
+                            return (
+                              <td {...cell.getCellProps()} key={innerIndex}>
+                                {cell.render('Cell')}
+                              </td>
+                            );
+                          })}
+                          <td className="text-center">
+                            <InfluencerAction
+                              user_id={user_id}
+                              isAdmin={isAdmin}
+                              row={row}
+                              handleDelete={handleDelete}
+                              handleSuspend={handleSuspend}
+                            />
+                          </td>
+                          {/* <button */}
+                          {/*  className="btn btn-primary btn-sm" */}
+                          {/*  onClick={() => */}
+                          {/*    window.open( */}
+                          {/*      `/admin/influencer/edit/${_get( */}
+                          {/*        row, */}
+                          {/*        'original._id', */}
+                          {/*      )}`, */}
+                          {/*      '_self', */}
+                          {/*    ) */}
+                          {/*  } */}
+                          {/* > */}
+                          {/*  Edit User */}
+                          {/* </button> */}
+                          {/* </td> */}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+                {(_get(influencersData, 'data', []).length === 0 ||
+                  isError) && <h3 className="text-center">No Users Found</h3>}
+                {_get(influencersData, 'data', []).length > 0 && !isError && (
+                  <AdminPagination
+                    paginationData={paginationData}
+                    handlePageSelect={handlePageSelect}
+                    handlePrevious={handlePrevious}
+                    handleNext={handleNext}
+                  />
+                )}
               </div>
             </div>
           </div>

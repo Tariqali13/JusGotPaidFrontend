@@ -1,16 +1,12 @@
 import React, { useContext } from 'react';
-import SecureTemplate from '@/layout/secure-template';
-import SearchHeader from '@/components/search-header';
 import Link from 'next/link';
 import TemplateContext from '@/layout/secure-template/context';
 import _get from 'lodash.get';
 
 const Profile = () => {
   const { userData, refetchUserData } = useContext(TemplateContext);
-
   return (
-    <div id="content">
-      <SearchHeader />
+    <>
       <div className="container-fluid">
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 className="h3 mb-0 text-gray-800">Profile</h1>
@@ -59,7 +55,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default Profile;

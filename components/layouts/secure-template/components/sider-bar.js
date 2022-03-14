@@ -18,6 +18,11 @@ const SideBar = () => {
   const isWindow = typeof window !== 'undefined';
   const [mobileView, setMobileView] = useState(false);
   const [openNav, setOpenNav] = useState(false);
+  const [collapseNav, setCollapseNav] = useState({
+    events: false,
+    users: false,
+    referrelFee: false,
+  })
   useEffect(() => {
     if (isWindow) {
       window.onscroll = function() {
@@ -29,101 +34,110 @@ const SideBar = () => {
       };
     }
   }, []);
-
-
-
+console.log("router", router.pathname);
   return (
     <div>
       <div className="d-block d-sm-none">
-      <ul
-      className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-      id="accordionSidebar"
-    >
-      <Link href="/" as="/">
-        <a
-          className="sidebar-brand
-         d-flex align-items-center justify-content-center"
+        <ul
+          className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+          id="accordionSidebar"
         >
-          <div className="sidebar-brand-text">Social Event Influencer</div>
-        </a>
-      </Link>
-      <div className="text-center text-white mt-2"><span>Role:</span> <b>{user_role}</b></div>
-      <br />
-      <br />
-      {
-        user_role === "Admin" ? (companySideNav &&
-          companySideNav.map((menu, index) => (
-            <React.Fragment key={index}>
-              <hr className="sidebar-divider my-0" />
-              <li
-                className={`nav-item ${router.pathname === menu.href &&
-                  'active'}`} title={menu.name}
-              >
-                <Link href={menu.href}>
-                  <a className="nav-link" title={menu.name}>
-                    <i className={`fas fa-fw ${menu.icon}`}></i>
-                    {/* <span>{menu.name}</span> */}
-                  </a>
-                </Link>
-              </li>
-              <hr className="sidebar-divider" />
-            </React.Fragment>
-          ))) : (sideNav &&
-            sideNav.map((menu, index) => (
+          <Link href="/" as="/">
+            <a
+              className="sidebar-brand
+         d-flex align-items-center justify-content-center"
+            >
+              <div className="sidebar-brand-text">Social Event Influencer</div>
+            </a>
+          </Link>
+          <div className="text-center text-white mt-2">
+            <span>Role:</span> <b>{user_role}</b>
+          </div>
+          <br />
+          <br />
+          <div className="max-nav-height">
+            {user_role === 'Admin' &&
+              companySideNav.map((menu, index) => (
+                <React.Fragment key={index}>
+                  <hr className="sidebar-divider my-0" />
+                  <li
+                    className={`nav-item ${router.pathname === menu.href &&
+                      'active'}`}
+                    title={menu.name}
+                  >
+                    <Link href={menu.href}>
+                      <a className="nav-link" title={menu.name}>
+                        <i className={`fas fa-fw ${menu.icon}`}></i>
+                        {/* <span>{menu.name}</span> */}
+                      </a>
+                    </Link>
+                  </li>
+                  <hr className="sidebar-divider" />
+                </React.Fragment>
+              ))}
+
+            {user_role !== 'Admin' &&
+              sideNav.map((menu, index) => (
+                <React.Fragment key={index}>
+                  <hr className="sidebar-divider my-0" />
+                  <li
+                    className={`nav-item ${router.pathname === menu.href &&
+                      'active'}`}
+                    title={menu.name}
+                  >
+                    <Link href={menu.href} as={menu.as}>
+                      <a className="nav-link">
+                        <i className={`fas fa-fw ${menu.icon}`}></i>
+                        {/* <span>{menu.name}</span> */}
+                      </a>
+                    </Link>
+                  </li>
+                  <hr className="sidebar-divider" />
+                </React.Fragment>
+              ))}
+          </div>
+        </ul>
+      </div>
+
+      <ul
+        className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion d-none d-md-block"
+        id="accordionSidebar"
+      >
+        <Link href="/" as="/">
+          <a
+            className="sidebar-brand
+         d-flex align-items-center justify-content-center"
+          >
+            <div className="sidebar-brand-text">
+              <img alt="logo" src="/img/Logo.png" width={125} />
+            </div>
+          </a>
+        </Link>
+        <div className="text-center text-white mt-2">
+          Role: <b>{user_role}</b>
+        </div>
+        <br />
+        <br />
+        <div className="max-nav-height">
+          {user_role === 'Admin' &&
+            companySideNav.map((menu, index) => (
               <React.Fragment key={index}>
                 <hr className="sidebar-divider my-0" />
                 <li
                   className={`nav-item ${router.pathname === menu.href &&
-                    'active'}`} title={menu.name}
+                    'active'}`}
                 >
-                  <Link href={menu.href} as={menu.as}>
+                  <Link href={menu.href}>
                     <a className="nav-link">
                       <i className={`fas fa-fw ${menu.icon}`}></i>
-                      {/* <span>{menu.name}</span> */}
+                      <span>{menu.name}</span>
                     </a>
                   </Link>
                 </li>
                 <hr className="sidebar-divider" />
               </React.Fragment>
-            )))
-      }
-    </ul>
-      </div>
-
-    <ul
-      className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion d-none d-md-block"
-      id="accordionSidebar"
-    >
-      <Link href="/" as="/">
-        <a
-          className="sidebar-brand
-         d-flex align-items-center justify-content-center"
-        >
-          <div className="sidebar-brand-text"><img src='/img/Logo.png' width={125}></img></div>
-        </a>
-      </Link>
-      <div className="text-center text-white mt-2">Role: <b>{user_role}</b></div>
-      <br />
-      <br />
-      {
-        user_role === "Admin" ? (companySideNav &&
-          companySideNav.map((menu, index) => (
-            <React.Fragment key={index}>
-              <hr className="sidebar-divider my-0" />
-              <li
-                className={`nav-item ${router.pathname === menu.href &&
-                  'active'}`}
-              >
-                <Link href={menu.href}>
-                  <a className="nav-link">
-                    <i className={`fas fa-fw ${menu.icon}`}></i>
-                    <span>{menu.name}</span>
-                  </a>
-                </Link>
-              </li>
-              <hr className="sidebar-divider" />
-            </React.Fragment>
-          ))) : (sideNav &&
+            ))}
+          {user_role !== 'Admin' &&
             sideNav.map((menu, index) => (
               <React.Fragment key={index}>
                 <hr className="sidebar-divider my-0" />
@@ -140,9 +154,9 @@ const SideBar = () => {
                 </li>
                 <hr className="sidebar-divider" />
               </React.Fragment>
-            )))
-      }
-    </ul>
+            ))}
+        </div>
+      </ul>
     </div>
   );
 };
