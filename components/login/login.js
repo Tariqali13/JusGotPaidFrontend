@@ -15,7 +15,8 @@ import { LOGIN_USER } from './queries';
 const Login = () => {
   const { event_id, influencer_id } = getLocalStorageValues();
   const [loginUser, { isLoading }] = useMutation(LOGIN_USER);
-  const isBuyFlow = localStorage.getItem('flow') === 'buy';
+  const isWindow = typeof window !== 'undefined';
+  const isBuyFlow = isWindow ? localStorage.getItem('flow') === 'buy' : false;
   return (
     <MarketingTemplate isColorNav={false}>
       <div className="container-fluid p-5 dynamic-form">
