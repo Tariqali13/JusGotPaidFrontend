@@ -22,11 +22,9 @@
     <list default="true" id="281c5f14-7669-4862-9d39-2ea535ae98e8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/alert/message.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/alert/message.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layouts/secure-template/secure-template.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/layouts/secure-template/secure-template.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/modal/confirmation-modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/modal/confirmation-modal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/referral-paid/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/referral-paid/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing-page/components/Events/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing-page/components/Events/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/referral-paid/referral-paid.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/referral-paid/referral-paid.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/uppy-file-uploader/uppy-file-uploader.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/uppy-file-uploader/uppy-file-uploader.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +110,7 @@
       <workItem from="1646771220315" duration="584000" />
       <workItem from="1646939652661" duration="812000" />
       <workItem from="1647241738871" duration="14248000" />
-      <workItem from="1647326288449" duration="7316000" />
+      <workItem from="1647326288449" duration="9688000" />
     </task>
     <servers />
   </component>

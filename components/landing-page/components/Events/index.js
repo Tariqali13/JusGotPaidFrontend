@@ -94,10 +94,10 @@ const Events = (props: Props) => {
           <HeadingOne>Event </HeadingOne>
           <HeadingTwo> SCHEDULE</HeadingTwo>
         </RowWrapper>
-        <Row>
+        <Row className="p-3">
           {_get(eventsData, 'data', []).map((event, i) => (
-            <Col md={3} key={i} className="d-flex">
-              <div className="card event-card">
+            <Col md={4} key={i} className="d-flex">
+              <div className="card event-card w-100">
                 <img
                   className="card-img-top w-100"
                   src={_get(

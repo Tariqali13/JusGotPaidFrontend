@@ -36,10 +36,14 @@ const columns = [
     accessor: 'event_id.event_name',
   },
   {
-    Header: 'total_amount',
+    Header: 'Total Amount',
     accessor: (_row: any) => (
       <span>{priceCalculator(_row.total_amount, '$')}</span>
     ),
+  },
+  {
+    Header: 'Commission%',
+    accessor: (_row: any) => <span>{_row.user_id.comission}%</span>,
   },
   {
     Header: 'Amount Paid',

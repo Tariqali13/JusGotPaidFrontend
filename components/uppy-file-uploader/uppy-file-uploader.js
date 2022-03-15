@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { DashboardModal } from '@uppy/react';
 import AwsS3 from '@uppy/aws-s3';
 import ms from 'ms';
-import Url from '@uppy/url';
+// import Url from '@uppy/url';
 import ImageEditor from '@uppy/image-editor';
 import Uppy from '@uppy/core';
 import { baseURL, uppyApiUrl } from '@/constants/env';
@@ -78,10 +78,10 @@ const UppyFileUploader = (props: IProps) => {
     },
   })
     .use(ImageEditor, {})
-    .use(Url, {
-      companionUrl: uppyApiUrl,
-      locale: {},
-    })
+    // .use(Url, {
+    //   companionUrl: uppyApiUrl,
+    //   locale: {},
+    // })
     .use(AwsS3, {
       limit: 2,
       timeout: ms('1 minute'),
@@ -210,10 +210,7 @@ const UppyFileUploader = (props: IProps) => {
         handleClose();
         removeBodyClass();
       }}
-      plugins={[
-        'ImageEditor',
-        'Url',
-      ]}
+      plugins={['ImageEditor']}
       metaFields={[{ id: 'name', name: 'Name', placeholder: 'File name' }]}
     />
   );
