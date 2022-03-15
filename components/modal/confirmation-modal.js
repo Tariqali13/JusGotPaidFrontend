@@ -5,7 +5,6 @@ type Props = {
   heading: string,
   children: any,
   modalOpen: boolean,
-  setModalOpen: boolean,
   toggleModal: () => void,
   isCancelButton: boolean,
   handleCancelButton: () => void,
@@ -14,6 +13,8 @@ type Props = {
   handleConfirmButton: () => void,
   confirmButtonText: string,
   size?: string,
+  disableSubmit?: boolean,
+  disableCancel?: boolean,
 };
 
 const ConfirmationModal = (props: Props) => {
@@ -29,12 +30,19 @@ const ConfirmationModal = (props: Props) => {
     isCancelButton,
     isConfirmButton,
     size,
+    disableSubmit = false,
+    disableCancel = false,
   } = props;
   return (
-    <Modal toggle={toggleModal} isOpen={modalOpen} centered={true} size={size}>
+    <Modal
+      toggle={!disableCancel ? toggleModal : () => {}}
+      isOpen={modalOpen}
+      centered={true}
+      size={size}
+    >
       <div className=" modal-header">
         <h5 className=" modal-title" id="exampleModalLabel">
-          {heading || ""}
+          {heading || ''}
         </h5>
         <button
           aria-label="Close"
@@ -49,16 +57,22 @@ const ConfirmationModal = (props: Props) => {
       <ModalFooter>
         {isCancelButton && (
           <Button
+            disabled={disableCancel}
             color="secondary"
             type="button"
             onClick={handleCancelButton}
           >
-            {cancelButtonText || "Cancel"}
+            {cancelButtonText || 'Cancel'}
           </Button>
         )}
         {isConfirmButton && (
-          <Button color="primary" type="button" onClick={handleConfirmButton}>
-            {confirmButtonText || "Confirm"}
+          <Button
+            color="primary"
+            type="button"
+            disabled={disableSubmit}
+            onClick={handleConfirmButton}
+          >
+            {confirmButtonText || 'Confirm'}
           </Button>
         )}
       </ModalFooter>

@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import NProgress from 'nprogress';
 import { getLocalStorageValues } from '@/constants/local-storage';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { removeLocalStorageCred } from '@/utils/local-storage';
 import _get from 'lodash.get';
 import { useQuery } from 'react-query';
@@ -19,8 +19,8 @@ type Props = {
 
 const SecureTemplate = (props: Props) => {
   const { children } = props;
-  // const router = useRouter();
-  // const { pathname } = router;
+  const router = useRouter();
+  const { pathname } = router;
   const TemplateProvider = TemplateContext.Provider;
   // const { user_auth_token, user_role } = getLocalStorageValues();
   const { user_auth_token, user_id } = getLocalStorageValues();
@@ -32,6 +32,25 @@ const SecureTemplate = (props: Props) => {
   } = useQuery(['GET_USER_BY_ID', { userId: user_id }], GET_USER_BY_ID, {
     ...reactQueryConfig,
     enabled: isEnabled,
+    onSuccess: async res => {
+      const routesForUsers = [
+        '/admin/dashboard',
+        '/admin/events',
+        '/admin/sales',
+        '/admin/referral-users',
+      ];
+      if (
+        user_auth_token &&
+        _get(res, 'data.role') === 'User' &&
+        !routesForUsers.includes(pathname)
+      ) {
+        Router.push('/admin/dashboard', '/admin/dashboard');
+      }
+      if (!user_auth_token) {
+        await removeLocalStorageCred();
+        Router.push('/', '/');
+      }
+    },
     onError: async () => {
       await removeLocalStorageCred();
       Router.push('/login', '/login', { shallow: true });
@@ -46,12 +65,6 @@ const SecureTemplate = (props: Props) => {
   Router.onRouteChangeError = () => {
     NProgress.done();
   };
-  useEffect(() => {
-    // if (!user_auth_token || user_role === 'Patron') {
-    if (!user_auth_token) {
-      Router.push('/', '/');
-    }
-  }, [user_auth_token]);
   return (
     <TemplateProvider
       value={{

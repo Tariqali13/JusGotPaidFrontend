@@ -16,10 +16,10 @@ export class Message {
         message={
           !otherOption?.message
             ? _get(
-                e,
-                'response.data.message',
-                'Something went wrong. Please try again.”',
-              )
+              e,
+              'response.data.message',
+              'Something went wrong. Please try again.”',
+            )
             : otherOption?.message || 'Operation Failed'
         }
         heading={otherOption?.heading || 'Failure'}
@@ -27,10 +27,10 @@ export class Message {
     );
   }
 
-  static success(res, otherOption: Object<any>) {
+  static success(res, otherOption, isMessage = false) {
     toast.success(
       <AlertMessage
-        // message={otherOption?.message || 'Successfully'}
+        message={isMessage ? res?.message : ''}
         heading={otherOption?.heading || 'Great Success!'}
       />,
     );

@@ -10,14 +10,17 @@ import AdminPagination from '@/components/pagination';
 import { Message } from '@/components/alert/message';
 import { ConfirmationModal } from '@/components/modal';
 import { Formik } from 'formik';
+import { priceCalculator } from '@/utils/display-util';
 import { PayModal } from './components';
 import {
   GET_REFERRAL_PAID,
   TRANSFER_AMOUNT,
   UPDATE_COMMISSION,
+  GET_TOTAL_REFERRAL_PAID,
+  BULK_TRANSFER_AMOUNT,
+  BULK_UPDATE_COMMISSION,
 } from './queries';
 import { validatePayForm } from './validations';
-import { priceCalculator } from '@/utils/display-util';
 
 const columns = [
   {
@@ -34,15 +37,19 @@ const columns = [
   },
   {
     Header: 'total_amount',
-    accessor: (_row: any, i: number) => <span>{priceCalculator(_row.total_amount, '$')}</span>,
+    accessor: (_row: any) => (
+      <span>{priceCalculator(_row.total_amount, '$')}</span>
+    ),
   },
   {
     Header: 'Amount Paid',
-    accessor: (_row: any, i: number) => <span>{priceCalculator(_row.amount_paid, '$')}</span>,
+    accessor: (_row: any) => (
+      <span>{priceCalculator(_row.amount_paid, '$')}</span>
+    ),
   },
   {
     Header: 'Pending Amount',
-    accessor: (_row: any, i: number) => (
+    accessor: (_row: any) => (
       <span>{priceCalculator(_row.total_amount - _row.amount_paid, '$')}</span>
     ),
   },
@@ -57,6 +64,12 @@ const ReferralPaid = (props: Props) => {
   const [open, setOpen] = useState(false);
   const toggleModal = () => setOpen(!open);
   const [feeToPay, setFeeToPay] = useState({});
+  const [totalCommissionToPay, setTotalCommissionToPay] = useState(0);
+  const [openTotalCommissionModal, setOpenTotalCommissionModal] = useState(
+    false,
+  );
+  const toggleTotalCommissionModal = () =>
+    setOpenTotalCommissionModal(!openTotalCommissionModal);
   const [referralParams, setReferralParams] = useState({
     records_per_page: 5,
     page_no: 1,
@@ -70,6 +83,14 @@ const ReferralPaid = (props: Props) => {
     updateCommission,
     { isLoading: isLoadingUpdateComission },
   ] = useMutation(UPDATE_COMMISSION);
+  const [
+    bulkTransferAmount,
+    { isLoading: isLoadingBulkTransfer },
+  ] = useMutation(BULK_TRANSFER_AMOUNT);
+  const [
+    bulkUpdateCommission,
+    { isLoading: isLoadingBulkUpdateComission },
+  ] = useMutation(BULK_UPDATE_COMMISSION);
   const { data, refetch, isLoading, isFetching, isError } = useQuery(
     ['REFERRAL_PAID', referralParams],
     GET_REFERRAL_PAID,
@@ -90,6 +111,29 @@ const ReferralPaid = (props: Props) => {
       },
     },
   );
+  const {
+    data: totalCommission,
+    refetch: refetchTotal,
+    isLoading: isLoadingTotal,
+    isFetching: isFetchingTotal,
+  } = useQuery(
+    ['TOTAL_REFERRAL_PAID', referralParams],
+    GET_TOTAL_REFERRAL_PAID,
+    {
+      ...reactQueryConfig,
+      enabled: is_due,
+      onSuccess: async res => {
+        if (_get(res, 'data', []).length) {
+          let total = 0;
+          // eslint-disable-next-line no-restricted-syntax,no-unused-vars
+          for (const com of _get(res, 'data', [])) {
+            total += parseFloat(com.total_amount) - parseFloat(com.amount_paid);
+          }
+          setTotalCommissionToPay(total);
+        }
+      },
+    },
+  );
   const tableData = _get(data, 'data', []);
   const {
     getTableProps,
@@ -98,6 +142,7 @@ const ReferralPaid = (props: Props) => {
     rows,
     prepareRow,
   } = useTable({ columns, data: tableData });
+
   const handleNext = page => {
     setReferralParams({
       ...referralParams,
@@ -127,7 +172,60 @@ const ReferralPaid = (props: Props) => {
       setOpen(true);
     }
   };
-  const handleConfirmPay = () => {};
+  const handleSubmitTotalCommission = async () => {
+    const filterData = _get(totalCommission, 'data', []).filter(com =>
+      _get(com, 'user_id.account_id'),
+    );
+    if (filterData?.length) {
+      const dataToTransfer = filterData.map(com => {
+        return {
+          _id: com._id,
+          amount: parseFloat(com.total_amount) - parseFloat(com.amount_paid),
+          currency: 'usd',
+          destination: com.user_id.account_id,
+        };
+      });
+      await bulkTransferAmount(
+        { commissions: dataToTransfer },
+        {
+          onSuccess: async res => {
+            const successData = filterData.filter(co =>
+              _get(res, 'data', []).includes(co._id),
+            );
+            const dataToTransferUpdate = successData.map(com => {
+              return {
+                _id: com._id,
+                manual_amount:
+                  parseFloat(com.total_amount) - parseFloat(com.amount_paid),
+              };
+            });
+            await bulkUpdateCommission(
+              {
+                is_some_error: _get(res, 'is_some_error', false),
+                commissions: dataToTransferUpdate,
+              },
+              {
+                onSuccess: async res => {
+                  toggleTotalCommissionModal();
+                  await refetch();
+                  await refetchTotal();
+                  Message.success(res, {}, true);
+                },
+                onError: e => {
+                  Message.error(e);
+                },
+              },
+            );
+          },
+          onError: async e => {
+            Message.error(e);
+          },
+        },
+      );
+    } else {
+      Message.error(null, { message: 'Not Stripe Accounts Connected' });
+    }
+  };
   return (
     <>
       <div className="container-fluid">
@@ -140,6 +238,17 @@ const ReferralPaid = (props: Props) => {
         </div>
         <div className="card shadow mb-4">
           <div className="card-body">
+            {is_due && (
+              <button
+                onClick={async () => {
+                  await refetchTotal();
+                  toggleTotalCommissionModal();
+                }}
+                className="btn btn-primary float-right"
+              >
+                Pay All
+              </button>
+            )}
             <div className="table-responsive">
               <div
                 id="dataTable_wrapper"
@@ -237,8 +346,9 @@ const ReferralPaid = (props: Props) => {
                 },
                 {
                   onSuccess: async res => {
-                    await refetch();
                     toggleModal();
+                    await refetch();
+                    await refetchTotal();
                     actions.resetForm();
                     Message.success(res);
                   },
@@ -273,6 +383,8 @@ const ReferralPaid = (props: Props) => {
               }}
               isCancelButton={true}
               isConfirmButton={true}
+              disableSubmit={isLoadingTransfer || isLoadingUpdateComission}
+              disableCancel={isLoadingTransfer || isLoadingUpdateComission}
               confirmButtonText="Pay Now"
               handleConfirmButton={formikProps.handleSubmit}
             >
@@ -281,16 +393,49 @@ const ReferralPaid = (props: Props) => {
           );
         }}
       </Formik>
+      <ConfirmationModal
+        size="md"
+        heading={`Pay Commission of total - ${priceCalculator(
+          totalCommissionToPay,
+          '$',
+        )}`}
+        modalOpen={openTotalCommissionModal}
+        toggleModal={() => {
+          toggleTotalCommissionModal();
+        }}
+        handleCancelButton={() => {
+          toggleTotalCommissionModal();
+        }}
+        isCancelButton={true}
+        isConfirmButton={true}
+        confirmButtonText="Pay Now"
+        disableCancel={isLoadingBulkTransfer || isLoadingBulkUpdateComission}
+        disableSubmit={isLoadingBulkTransfer || isLoadingBulkUpdateComission}
+        handleConfirmButton={handleSubmitTotalCommission}
+      >
+        <p>
+          Are you sure you want to pay full commission to everyone of total
+          amount {priceCalculator(totalCommissionToPay, '$')}?
+        </p>
+      </ConfirmationModal>
       {(isLoading ||
         isFetching ||
         isLoadingTransfer ||
-        isLoadingUpdateComission) && (
+        isLoadingUpdateComission ||
+        isLoadingTotal ||
+        isFetchingTotal ||
+        isLoadingBulkTransfer ||
+        isLoadingBulkUpdateComission) && (
         <ProgressLoader
           isLoading={
             isLoading ||
             isFetching ||
             isLoadingTransfer ||
-            isLoadingUpdateComission
+            isLoadingUpdateComission ||
+            isLoadingTotal ||
+            isFetchingTotal ||
+            isLoadingBulkTransfer ||
+            isLoadingBulkUpdateComission
           }
         />
       )}
