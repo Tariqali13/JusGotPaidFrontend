@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import SearchHeader from '@/components/search-header';
 import { useTable } from 'react-table';
-import { useQuery, useMutation, isError } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import Router, { useRouter } from 'next/router';
 import { getLocalStorageValues } from '@/constants/local-storage';
 import reactQueryConfig from '@/constants/react-query-config';
@@ -43,7 +42,7 @@ const columns = [
   },
   {
     Header: 'Ticket Price',
-    accessor: (_row: any, i: number) => (
+    accessor: (_row: any) => (
       <span>{priceCalculator(_row.ticket_price, '$')}</span>
     ),
   },
@@ -91,6 +90,11 @@ const EventsManager = (props: Props) => {
   });
 
   const [paginationData, setPaginationData] = useState({});
+  const [tranParams, setTranParams] = useState({
+    records_per_page: 5,
+    page_no: 1,
+  });
+  const [tranPaginationData, setTranPaginationData] = useState({});
   // if(user_role === "Admin") {
   //   var { data: eventsData, isLoading: isEventsDataLoading } = useQuery(
   //     ['EVENTS_DATA', { id: user_id }],
@@ -141,13 +145,37 @@ const EventsManager = (props: Props) => {
   });
 
   const enableTrans = typeof _get(eventToView, '_id') === 'string';
-  const { data: transData, isLoading: isLoadingTransData } = useQuery(
+  const {
+    data: transData,
+    isLoading: isLoadingTransData,
+    isFetching: isFetchingTran,
+    isError: isErrorTran,
+  } = useQuery(
     [
       'GET_EVENTS_TRAN_DATA',
-      {
-        event_id: _get(eventToView, '_id', ''),
-      },
+      { ...tranParams, event_id: _get(eventToView, '_id', '') },
     ],
+    GET_EVENTS_TRAN_DATA,
+    {
+      ...reactQueryConfig,
+      enabled: enableTrans && isAdmin,
+      onSuccess: res => {
+        // eslint-disable-next-line no-undef
+        const { result } = Pagination(
+          res.records_per_page,
+          res.total_number_of_trans,
+          res.page_no,
+          res.data.length,
+        );
+        return setTranPaginationData(result);
+      },
+      onError: () => {
+        setTranPaginationData({});
+      },
+    },
+  );
+  const { data: totalTransData } = useQuery(
+    ['GET_EVENTS_TRAN_DATA', { event_id: _get(eventToView, '_id', '') }],
     GET_EVENTS_TRAN_DATA,
     {
       ...reactQueryConfig,
@@ -203,6 +231,24 @@ const EventsManager = (props: Props) => {
   const handlePageSelect = page => {
     setEventParams({
       ...eventParams,
+      page_no: page,
+    });
+  };
+  const handleNextTran = page => {
+    setTranParams({
+      ...tranParams,
+      page_no: parseInt(page),
+    });
+  };
+  const handlePreviousTran = page => {
+    setTranParams({
+      ...tranParams,
+      page_no: parseInt(page),
+    });
+  };
+  const handlePageSelectTran = page => {
+    setEventParams({
+      ...tranParams,
       page_no: page,
     });
   };
@@ -409,7 +455,15 @@ const EventsManager = (props: Props) => {
         <EventViewModal
           eventData={_get(eventData, 'data', {})}
           transData={_get(transData, 'data', {})}
+          paginationData={tranPaginationData}
+          handlePageSelect={handlePageSelectTran}
+          handlePrevious={handlePreviousTran}
+          handleNext={handleNextTran}
+          isLoadingTransData={isLoadingTransData}
+          isFetchingTran={isFetchingTran}
+          isError={isErrorTran}
           isAdmin={isAdmin}
+          totalTransData={_get(totalTransData, 'data', [])}
         />
       </ConfirmationModal>
       {(isEventsDataLoading ||

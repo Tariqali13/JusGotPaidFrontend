@@ -11,11 +11,17 @@ import Pagination from '@/utils/pagination';
 import AdminPagination from '@/components/pagination';
 import { priceCalculator } from '@/utils/display-util';
 import { GET_SALES_DATA } from './queries';
+import moment from 'moment';
 
 const columns = [
   {
-    Header: 'User Name',
-    accessor: 'user_id.first_name', // accessor is the "key" in the data
+    Header: 'Ticket Purchase By',
+    accessor: (_row: any, i: number) => (
+      <span>
+        {_get(_row, 'user_id.first_name', '')}{' '}
+        {_get(_row, 'user_id.last_name', '')}
+      </span>
+    ),
   },
   {
     Header: 'Event Name',
@@ -29,6 +35,12 @@ const columns = [
     Header: 'Total Amount ($)',
     accessor: (_row: any, i: number) => (
       <span>{priceCalculator(_row.total_amount, '$')}</span>
+    ),
+  },
+  {
+    Header: 'Purchase At',
+    accessor: (_row: any, i: number) => (
+      <span>{moment(_row.createdAt).format('DD-MM-YYYY hh:mm a')}</span>
     ),
   },
 ];

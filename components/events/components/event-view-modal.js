@@ -1,15 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import _get from 'lodash.get';
 import moment from 'moment';
+import { priceCalculator } from '@/utils/display-util';
+import AdminPagination from '@/components/pagination';
+import { Spinner } from 'reactstrap';
 
 type Props = {
   eventData: any,
   transData: any,
   isAdmin: boolean,
+  paginationData: any,
+  handlePageSelect: () => {},
+  handlePrevious: () => {},
+  handleNext: () => {},
+  isError: boolean,
+  isLoadingTransData: boolean,
+  isFetchingTran: boolean,
+  totalTransData: any,
 };
 
 const EventViewModal = (props: Props) => {
-  const { eventData, transData, isAdmin } = props;
+  const {
+    eventData,
+    transData,
+    isAdmin,
+    paginationData,
+    handleNext,
+    handlePageSelect,
+    handlePrevious,
+    isError,
+    isFetchingTran,
+    isLoadingTransData,
+    totalTransData,
+  } = props;
+  const [totalSale, setTotalSale] = useState(0);
+  useEffect(() => {
+    if (totalTransData.length) {
+      let total = 0;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const sale of totalTransData) {
+        total += parseFloat(sale.total_amount);
+      }
+      setTotalSale(total);
+    }
+  }, [totalTransData]);
   return (
     <div>
       <h3 className="my-3">Basic Information</h3>
@@ -42,7 +76,18 @@ const EventViewModal = (props: Props) => {
                   Location: {_get(eventData, 'event_location')}
                 </li>
                 <li className="list-group-item">
-                  Total Tickets: {_get(eventData, 'no_of_total_tickets')}
+                  Total Tickets: {_get(eventData, 'no_of_tickets')}
+                </li>
+                <li className="list-group-item">
+                  Total Tickets Left:{' '}
+                  {_get(eventData, 'no_of_tickets') -
+                    _get(eventData, 'no_of_tickets_sold')}
+                </li>
+                <li className="list-group-item">
+                  Total Tickets Sold: {_get(eventData, 'no_of_tickets_sold')}
+                </li>
+                <li className="list-group-item">
+                  Total Sale: {priceCalculator(totalSale, '$')}
                 </li>
               </ul>
             </div>
@@ -66,7 +111,7 @@ const EventViewModal = (props: Props) => {
           </div>
         </>
       )}
-      {transData.length > 0 && isAdmin && (
+      {isAdmin && (
         <>
           <hr className="my-3" />
           <h3 className="my-3">Transactions</h3>
@@ -78,30 +123,52 @@ const EventViewModal = (props: Props) => {
               <table className="table table-bordered dataTable">
                 <thead>
                   <tr>
-                    <th>Purchaser Name</th>
-                    <th>Purchaser Email</th>
-                    <th>Tickets Bought</th>
+                    <th>Purchased By Name</th>
+                    <th>Purchased By Email</th>
+                    <th>Tickets Buy</th>
                     <th>Total Amount</th>
                     <th>Purchased At</th>
                   </tr>
                 </thead>
                 <tbody style={{ height: '50px', overflowY: 'scroll' }}>
-                  {transData.map((tan, i) => (
-                    <tr key={i}>
-                      <td>
-                        {_get(tan, 'user_id.first_name')}{' '}
-                        {_get(tan, 'user_id.last_name')}
-                      </td>
-                      <td>{_get(tan, 'user_id.email')}</td>
-                      <td>{_get(tan, 'tickets_buy')}</td>
-                      <td>{_get(tan, 'total_amount')}</td>
-                      <td>
-                        {moment(_get(tan, 'createdAt')).format('YYYY-MM-DD')}
-                      </td>
-                    </tr>
-                  ))}
+                  {!isLoadingTransData &&
+                    !isFetchingTran &&
+                    transData.map((tan, i) => (
+                      <tr key={i}>
+                        <td>
+                          {_get(tan, 'user_id.first_name')}{' '}
+                          {_get(tan, 'user_id.last_name')}
+                        </td>
+                        <td>{_get(tan, 'user_id.email')}</td>
+                        <td>{_get(tan, 'tickets_buy')}</td>
+                        <td>
+                          {priceCalculator(_get(tan, 'total_amount'), '$')}
+                        </td>
+                        <td>
+                          {moment(_get(tan, 'createdAt')).format('YYYY-MM-DD')}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
+              {(isLoadingTransData || isFetchingTran) && (
+                <div className="text-center">
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden"></span>
+                  </Spinner>
+                </div>
+              )}
+              {(transData.length === 0 || isError) && (
+                <h3 className="text-center">No Transactions Found</h3>
+              )}
+              {transData.length > 0 && !isError && (
+                <AdminPagination
+                  paginationData={paginationData}
+                  handlePageSelect={handlePageSelect}
+                  handlePrevious={handlePrevious}
+                  handleNext={handleNext}
+                />
+              )}
             </div>
           </div>
         </>
